@@ -1,0 +1,11 @@
+@import './functions';
+
+$light: (
+        primaryLight:    color(primaryLightRed),
+        primaryDark:     color(primaryDarkRed),
+        textHighContrast:color(myBlack),
+        textLowContrast: color(grey),
+        backgroundDark:  color(myLightGrey),
+        backgroundLight: color(myWhite),
+        none:           color(invisible)
+);

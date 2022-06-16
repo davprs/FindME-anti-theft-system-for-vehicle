@@ -1,0 +1,222 @@
+@import "../../colors.scss";
+
+
+.fullIcon {
+    width: 100%;
+    margin-left: 1%;
+}
+
+.menuContainer {
+    display: flex;
+    margin-left: auto;
+    margin-right: 10px;
+
+    &.openMenu {
+        .bar1 {
+            -webkit-transform: rotate(-45deg) translate(-9px, 6px);
+            transform: rotate(-45deg) translate(-9px, 6px);
+        }
+
+        .bar2 {
+            opacity: 0;
+        }
+
+        .bar3 {
+            -webkit-transform: rotate(45deg) translate(-8px, -8px);
+            transform: rotate(45deg) translate(-8px, -8px);
+        }
+    }
+
+    .menu {
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        padding-inline-start: 0;
+        @include theme(background, backgroundDark);
+        border-radius: 2rem;
+        margin: 0 20px 0 0;
+        padding: 0 0 0 10px;
+
+        li {
+            margin-left: auto;
+            display: flex;
+            flex-direction: row;
+            transition: transform 100ms;
+            animation: mymove 5s normal;
+            height: 90%;
+            align-items: center;
+            justify-content: center;
+
+            &:not(:is(.loginItem)):active {
+                transform: translateY(-5px);
+            }
+
+            &.loginItem {
+                background-image: linear-gradient(to bottom, color(primaryLightRed),color(primaryDarkRed));
+                margin-left: 10px;
+                border-radius: 0 2rem 2rem 0;
+                color: white;
+                height: 100%;
+                align-items: center;
+                justify-content: center;
+                opacity: 1;
+
+                a {
+                    color: white;
+                    vertical-align: center;
+                    text-align: center;
+
+                }
+            }
+
+            a {
+                padding: 2rem;
+                display: inline-block;
+                text-align: center;
+                @include theme(color, textHighContrast);
+                text-decoration: none;
+                font-family: Bahnschrift SemiBold;
+                font-size: 1.2rem;
+
+            }
+
+            a:hover {
+                transform: scale(1.2);
+            }
+
+            &.sel{
+                border-radius: 2rem;
+                background-image: linear-gradient(to bottom, #E2323796, #E23237);
+
+                a{
+                    color: #FFFFFF;
+                }
+            }
+        }
+    }
+
+    .menuIcon {
+        visibility: hidden;
+        margin-left: auto;
+
+        .bar1, .bar2, .bar3 {
+            width: 35px;
+            height: 5px;
+            @include theme(background-color, primaryLight);
+            margin: 6px 0;
+            transition: 0.4s;
+        }
+    }
+}
+
+nav {
+    display: grid;
+    grid-template-columns: clamp(12rem, 55%, 22rem) 1fr;
+    @include theme(background, backgroundLight);
+}
+
+@media only screen and (max-width: 900px) {
+
+    .fullIcon {
+        width: clamp(12rem, 55%, 22rem);
+    }
+
+    nav {
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .menuContainer {
+        .menuIcon {
+            visibility: visible;
+            margin-left: auto;
+            margin-right: 0;
+            pointer-events: none;
+        }
+
+        &.openMenu .menu li {
+            visibility: visible;
+            height: 3em;
+            transition: height 400ms cubic-bezier(0.23, 1, 0.32, 1);
+
+        }
+
+        .menu {
+            @include theme(background, none);
+            z-index: -1;
+            padding: clamp(0%, 0.5vw,  5%) 0 0 1%;
+            display: flex;
+            position: absolute;
+            left: 0%;
+            margin-top: 50px;
+            flex-direction: column;
+            width: 97.5%;
+            justify-content: center;
+            align-items: center;
+
+            li {
+                visibility: hidden;
+                height: 0;
+                padding: 0;
+                border: 0;
+                transition: height 400ms cubic-bezier(0.23, 1, 0.32, 1);
+                font-family: Bahnschrift SemiBold;
+                font-size: 1.2em;
+                outline: 1px;
+                display: inline-flex;
+                justify-content: center;
+                text-align: end;
+                width: 100%;
+                @include theme(background-color, backgroundLight);
+
+                &:active {
+                    transform: none;
+                    transition: none;
+                }
+
+                &.sel {
+                    padding: 0;
+                    border-radius: 0;
+                    background-image: none;
+
+                    a {
+                        @include theme(color, primaryLight);
+                        @include theme(text-underline, primaryLight);
+                        text-decoration: underline;
+                        text-underline-offset: 0.5rem;
+                    }
+                }
+
+                &:not(:is(.loginItem)):active {
+                    transform: none;
+                }
+
+                &:last-child {
+                    border-top: none;
+                    border-bottom: none;
+                }
+
+                &.loginItem {
+                    border-radius: 0;
+                    margin: 0;
+                    padding: 0;
+                    height: auto;
+                }
+
+                a {
+                    padding: 1em 42% 1em 42%;
+                }
+
+                a:hover {
+                    transform: none;
+                }
+
+                a:active {
+                    transform: none;
+                    transition: none;
+                }
+            }
+
+        }
+    }
+}

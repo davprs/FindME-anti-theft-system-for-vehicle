@@ -1,0 +1,24 @@
+@import 'colors.scss';
+
+html {
+  @include generateThemeVariables;
+}
+
+body {
+  margin: 0;
+}
+
+nav {
+  @include theme(background-color, backgroundDark);
+}
+
+
+
+.container {
+  display: inline-block;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 900px) {
+
+}
