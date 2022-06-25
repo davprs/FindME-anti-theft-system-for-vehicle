@@ -3,16 +3,16 @@ import ReactDOM from 'react-dom/client';
 import './index.scss';
 import reportWebVitals from './reportWebVitals';
 import {Login, Main, PageNotFound} from './Routes/index';
-import {BrowserRouter, Router} from "react-router-dom";
-import {Route, Routes} from "react-router";
-import MainHeader from "./Components/MainHeader";
+import {BrowserRouter, Router, Switch} from "react-router-dom";
+import {Route, Routes, useLocation} from "react-router";
+import {AnimatePresence} from "framer-motion";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 document.querySelector("html").classList.add("light");
 
 root.render(
-      <BrowserRouter basename={"/"}>
-          <Routes>
+    <BrowserRouter basename={"/"}>
+        <Routes>
               <Route path={'/'}>
                   <Route index element={<Main />} />
                   <Route path={"/"} element={<Main />} />
@@ -23,7 +23,8 @@ root.render(
                   <Route path={"/*"} element={<PageNotFound />}/>
               </Route>
           </Routes>
-      </BrowserRouter>
+    </BrowserRouter>
+
 );
 
 // If you want to start measuring performance in your app, pass a function

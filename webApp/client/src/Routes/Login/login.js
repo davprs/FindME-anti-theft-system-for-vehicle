@@ -1,11 +1,13 @@
 import './login.style.scss';
 import LoginHeader from '../../Components/LoginHeader'
-import SignupFormProgress from "../../Components/SignupFormProgress";
+import LoginBody from "../../Components/LoginBody";
+
+
 function Login(){
     return (
         <>
             <LoginHeader />
-            <SignupFormProgress />
+            <LoginBody />
         </>
     );
 }
