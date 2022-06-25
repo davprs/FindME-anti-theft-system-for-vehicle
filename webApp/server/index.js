@@ -9,8 +9,9 @@ const {Server} = require('socket.io');
 const io = new Server(http);
 const {saveCheck} = require('./src/controllers/hardwareIOController');
 var publicInfoRouter = require('./src/routers/publicInfoRouter');
+const userRelatedRouter = require("./src/routers/usersServicesRouter");
 
-const EXPRESS_PORT = 3000;
+const EXPRESS_PORT = 5000;
 const SOCKETIO_PORT = 4000;
 
 global.appRoot = path.resolve(__dirname);
@@ -18,7 +19,7 @@ mongoose.connect('mongodb://localhost:27017/FindME');
 
 app.use(cors());
 
-app.use(express.static(path.join(appRoot, "build")));
+//app.use(express.static(path.join(appRoot, "build")));
 
 http.listen(SOCKETIO_PORT, ()=>{
     console.log("SocketIO listen on port " + SOCKETIO_PORT)
@@ -43,6 +44,7 @@ io.on('connection', (socket) => {
     });
 });
 
+app.use('/api/auth', userRelatedRouter);
 app.use('/', publicInfoRouter);
 
 app.use((req, res)=> {
