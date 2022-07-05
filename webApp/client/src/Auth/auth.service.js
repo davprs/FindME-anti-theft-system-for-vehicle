@@ -1,37 +1,56 @@
 import axios from "axios";
+import cookie from "cookie";
 const API_URL = "http://127.0.0.1:5000/api/auth/";
 
 class AuthService {
-    login(username, password) {
+
+    parseJwt (token) {
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace('-', '+').replace('_', '/');
+        return JSON.parse(atob(base64));
+    }
+
+    login(email, password) {
         return axios
-            .post(API_URL + "signin", {
-                username,
+            .post(API_URL + "login", {
+                email,
                 password
             })
             .then(res => {
-                if (res.data.accessToken) {
-                    localStorage.setItem("user", JSON.stringify(res.data));
+                if (res.data) {
+                    document.cookie = "token=" + JSON.stringify(res.data.token);
                 }
                 return res.data;
             });
     }
+
     logout() {
-        localStorage.removeItem("user");
+        document.cookie = "token=; Max-Age=0;secure";
     }
-    register(username, email, password, plate, deviceNumber) {
+
+    register(username, firstName, lastName, email, password, plate, brand) {
         return axios.post(API_URL + "signup", {
-            username, email, password, plate, deviceNumber
+            username, firstName, lastName, email, password, plate, brand
         })
         .then((response) => {
             console.log(response.data)
-            document.cookie = `token=${response.data}`
+            document.cookie = "token=" + JSON.stringify(response.data);
+
         })
-        .catch(function (error) {
-            console.log(error);
-        });
     }
+    verifyToken(token) {
+        return axios.post("http://localhost:5000/api/auth/verify/" + token);
+    }
+
+    getToken(){
+        if (document.cookie.indexOf('token') === -1) {
+            throw new Error("token not found");
+        }
+        return cookie.parse(document.cookie)['token'];
+    }
+
     getCurrentUser() {
-        return JSON.parse(localStorage.getItem('user'));;
+        return this.parseJwt(cookie.parse(document.cookie)['token']);
     }
 }
 export default new AuthService();

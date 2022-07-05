@@ -1,5 +1,7 @@
 @import 'colors.scss';
-
+.debug {
+  background-color: rgba(226,50,55,0.15);
+}
 html {
   @include generateThemeVariables;
 }

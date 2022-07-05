@@ -1,6 +1,7 @@
 import Main from './Main/main'
 import Login from './Login/login'
 import PageNotFound from "./PageNotFound/pageNotFound";
+import Dashboard from "./Dashboard/dashboard";
 
 function objectFlip(obj) {
     return Object.keys(obj).reduce((ret, key) => {
@@ -10,14 +11,19 @@ function objectFlip(obj) {
 }
 
 export const HOME_PATH = "/home";
+export const HOME_PATH_COMP = "/";
 export const INFO_PATH = "/info";
 export const CONTACTS_PATH = "/contatti";
 export const LOGIN_PATH = "/login";
+export const SIGNUP_PATH = "/signup";
+export const LOGOUT_PATH = "/logout";
+export const DASHBOARD_PATH = "/dashboard";
 
-export const PATH_DICT = Object.assign({"/": 0},
-    ...[HOME_PATH, INFO_PATH, CONTACTS_PATH, LOGIN_PATH].map((path, index) => ({[path]: index})));
+export const PATH_DICT = Object.assign({[HOME_PATH_COMP]: 0},
+    ...[HOME_PATH, INFO_PATH, CONTACTS_PATH,
+        LOGIN_PATH, DASHBOARD_PATH, SIGNUP_PATH, LOGOUT_PATH].map((path, index) => ({[path]: index})));
 
 
 export const PATH_DICT_INV = objectFlip(PATH_DICT)
 
-export {Main, Login, PageNotFound};
+export {Main, Login, PageNotFound, Dashboard};

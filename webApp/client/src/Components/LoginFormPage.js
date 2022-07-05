@@ -39,14 +39,16 @@ const LoginFormPage = ({pages, paginate, page, direction, pageIndex}) => {
 
             drag="x"
             dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={1}
+            dragElastic={pages.length < 2 ? 0.1 : 1}
             onDragEnd={(e, { offset, velocity }) => {
-                const swipe = swipePower(offset.x, velocity.x);
+                if (pages.length > 1) {
+                    const swipe = swipePower(offset.x, velocity.x);
 
-                if (swipe < -swipeConfidenceThreshold) {
-                    paginate(1);
-                } else if (swipe > swipeConfidenceThreshold) {
-                    paginate(-1);
+                    if (swipe < -swipeConfidenceThreshold) {
+                        paginate(1);
+                    } else if (swipe > swipeConfidenceThreshold) {
+                        paginate(-1);
+                    }
                 }
             }}
         >{pages[pageIndex]}

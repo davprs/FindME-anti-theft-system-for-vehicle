@@ -1,13 +1,13 @@
 import {Link} from "react-router-dom";
 import {useNavigate} from "react-router";
+import {HOME_PATH_COMP} from "../Routes";
 
 const SignupNavigationButtons = ({paginate, prev, next, isFirst, isLast, formSubmit}) => {
 
     const buttonActionOnClick = (direction) => {
         if (isFirst && direction === prev) {
-            return () => navigate("/");
+            return () => navigate(HOME_PATH_COMP);
         } else if (isLast && direction === next) {
-            console.log("LAST")
             return (evt) => formSubmit(evt);
         }
 

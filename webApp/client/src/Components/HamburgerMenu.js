@@ -1,5 +1,5 @@
 import {Link} from "react-router-dom";
-import {HOME_PATH, INFO_PATH, CONTACTS_PATH, LOGIN_PATH} from "../Routes/index";
+import {HOME_PATH, HOME_PATH_COMP} from "../Routes";
 
 const toggleMenu = (event) => {
     event.stopPropagation()
@@ -7,7 +7,18 @@ const toggleMenu = (event) => {
     el.classList.toggle("openMenu");
 }
 
-function HamburgerMenu({handleClick, currentPage, closeMenu}) {
+function HamburgerMenu({handleClick, currentPage, closeMenu, paths, pathNames}) {
+    const menuItems = Array.from(paths, (path, index) => {
+        return (
+            <>
+                <li className={(currentPage=== path || (currentPage === HOME_PATH_COMP && path === HOME_PATH)) ? "sel" : "" ||
+                    index === paths.length - 1 ? "lastItem": ""}>
+                    <Link to={path} onClick={()=> {closeMenu();handleClick(path)}}>{pathNames[index]}</Link>
+                </li>
+            </>
+        )
+    });
+
     return (
         <>
             <div className="menuContainer" onClick={toggleMenu}>
@@ -18,18 +29,7 @@ function HamburgerMenu({handleClick, currentPage, closeMenu}) {
                 </div>
 
                 <ul className="menu">
-                    <li className={currentPage=== HOME_PATH || currentPage=== "/" ? "sel" : ""} >
-                        <Link to={HOME_PATH} onClick={()=> {closeMenu();handleClick(HOME_PATH)}}>Home</Link>
-                    </li>
-                    <li className={currentPage=== INFO_PATH ? "sel" : ""}>
-                        <Link to={INFO_PATH} onClick={()=>{closeMenu();handleClick(INFO_PATH)}}>Info</Link>
-                    </li>
-                    <li className={currentPage === CONTACTS_PATH ? "sel" : ""}>
-                        <Link to={CONTACTS_PATH} onClick={()=>{closeMenu(); handleClick(CONTACTS_PATH)}}>Contatti</Link>
-                    </li>
-                    <li className={"loginItem"}>
-                        <Link to={LOGIN_PATH} onClick={()=>{closeMenu(); handleClick(LOGIN_PATH)}}>Login</Link>
-                    </li>
+                    {menuItems}
                 </ul>
 
             </div>

@@ -1,6 +1,5 @@
 @import "../../colors.scss";
 
-
 .fullIcon {
     width: 100%;
     margin-left: 1%;
@@ -47,11 +46,11 @@
             align-items: center;
             justify-content: center;
 
-            &:not(:is(.loginItem)):active {
+            &:not(:is(.lastItem)):active {
                 transform: translateY(-5px);
             }
 
-            &.loginItem {
+            &.lastItem {
                 background-image: linear-gradient(to bottom, color(primaryLightRed),color(primaryDarkRed));
                 margin-left: 10px;
                 border-radius: 0 2rem 2rem 0;
@@ -146,14 +145,14 @@ nav {
 
         .menu {
             @include theme(background, none);
-            padding: clamp(0%, 0.5vw,  5%) 0 0 1%;
+            padding: clamp(0%, 0.5vw,  5%) 0 0 0%;
             display: flex;
             position: absolute;
-            left: 0%;
+            left: 0.5%;
             z-index: 0;
-            margin-top: 50px;
+            margin: 50px 0 0 0;
             flex-direction: column;
-            width: 97.5%;
+            width: 99%;
             justify-content: center;
             align-items: center;
 
@@ -190,7 +189,7 @@ nav {
                     }
                 }
 
-                &:not(:is(.loginItem)):active {
+                &:not(:is(.lastItem)):active {
                     transform: none;
                 }
 
@@ -199,7 +198,7 @@ nav {
                     border-bottom: none;
                 }
 
-                &.loginItem {
+                &.lastItem {
                     border-radius: 0;
                     margin: 0;
                     padding: 0;
@@ -207,6 +206,7 @@ nav {
                 }
 
                 a {
+                    overflow: hidden;
                     padding: 1em 42% 1em 42%;
                 }
 

@@ -2,10 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.scss';
 import reportWebVitals from './reportWebVitals';
-import {Login, Main, PageNotFound} from './Routes/index';
-import {BrowserRouter, Router, Switch} from "react-router-dom";
-import {Route, Routes, useLocation} from "react-router";
-import {AnimatePresence} from "framer-motion";
+import {
+    CONTACTS_PATH,
+    Dashboard, DASHBOARD_PATH, HOME_PATH,
+    HOME_PATH_COMP,
+    INFO_PATH,
+    Login,
+    LOGIN_PATH, LOGOUT_PATH,
+    Main,
+    PageNotFound, SIGNUP_PATH
+} from './Routes/index';
+import {BrowserRouter} from "react-router-dom";
+import {Route, Routes} from "react-router";
+import Signup from "./Routes/Login/signup";
+import Logout from "./Routes/Login/logout";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 document.querySelector("html").classList.add("light");
@@ -13,13 +23,16 @@ document.querySelector("html").classList.add("light");
 root.render(
     <BrowserRouter basename={"/"}>
         <Routes>
-              <Route path={'/'}>
+              <Route path={HOME_PATH_COMP}>
                   <Route index element={<Main />} />
-                  <Route path={"/"} element={<Main />} />
-                  <Route path={"/home"} element={<Main />} />
-                  <Route path={"/info"} element={<Main />} />
-                  <Route path={"/contatti"} element={<Main />} />
-                  <Route path={"/login"} element={<Login />} />
+                  <Route path={HOME_PATH_COMP} element={<Main />} />
+                  <Route path={HOME_PATH} element={<Main />} />
+                  <Route path={INFO_PATH} element={<Main />} />
+                  <Route path={CONTACTS_PATH} element={<Main />} />
+                  <Route path={LOGIN_PATH} element={<Login />} />
+                  <Route path={SIGNUP_PATH} element={<Signup />} />
+                  <Route path={LOGOUT_PATH} element={<Logout />} />
+                  <Route path={DASHBOARD_PATH} element={<Dashboard />} />
                   <Route path={"/*"} element={<PageNotFound />}/>
               </Route>
           </Routes>
