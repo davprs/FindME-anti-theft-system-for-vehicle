@@ -3,17 +3,17 @@ const NormalDeviceInfo= require("../models/deviceInfoModel.js").normalModel(mong
 const AlarmDeviceInfo= require("../models/deviceInfoModel.js").alarmModel(mongoose);
 
 module.exports.saveCheck = async (jsonInfo, alarmState) => {
-    let new_info;
+    let doc;
     if (alarmState) {
-        new_info = new AlarmDeviceInfo(jsonInfo);
-        new_info.save((err, info) => {
+        doc = new AlarmDeviceInfo(jsonInfo);
+        doc.save((err, info) => {
             if (err) {
-                console.log(err);
+                throw new Error(doc);
             }
         });
     } else {
-        new_info = new NormalDeviceInfo(jsonInfo);
-        let doc = await NormalDeviceInfo.findOneAndUpdate({deviceID: new_info.deviceID}, {$set: {
+        const new_info = new NormalDeviceInfo(jsonInfo);
+        doc = await NormalDeviceInfo.findOneAndUpdate({deviceID: new_info.deviceID}, {$set: {
             bat: new_info.bat,
             gpsPos: new_info.gpsPos,
             gpsSig: new_info.gpsSig,
@@ -21,9 +21,29 @@ module.exports.saveCheck = async (jsonInfo, alarmState) => {
             }}, {
             new: true,
             upsert: true
-        });
-        console.log(doc);
+        }).catch(err => new Error(err));
     }
+
+    return doc;
+}
+
+module.exports.getLastKnownData = (deviceID) => {
+    return Promise.all([getLastNormal(deviceID), getLastTheft(deviceID)])
+        .then((values) => {
+            if (values[0].updatedAt > values[1].updatedAt){
+                return [values[0], false];
+            }
+            return [values[1], true];
+        });
+}
+
+getLastNormal = (deviceID) => {
+    return NormalDeviceInfo.findOne({"deviceID": deviceID});
+}
+
+getLastTheft = (deviceID) => {
+    return AlarmDeviceInfo.findOne({"deviceID": deviceID}).sort({createdAt: -1});
+
 }
 
 

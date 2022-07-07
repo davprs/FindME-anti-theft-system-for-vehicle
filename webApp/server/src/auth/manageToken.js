@@ -5,20 +5,22 @@ module.exports.generateAccessToken = (credentials) => {
     return jwt.sign(credentials, tokenSecret, { expiresIn: '1800s' });
 }
 
-module.exports.authenticateToken = (req, res, next) => {
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1]
+module.exports.authenticateToken = (token) => {
+    if (token == null) throw new Error("401 - Token is null");
 
-    if (token == null) return res.sendStatus(401)
+    return jwt.verify(token, tokenSecret, (err, user) => {
+        console.log("error : " + err)
 
-    jwt.verify(token, tokenSecret, (err, user) => {
-        console.log(err)
+        if (err) throw new Error("403 - Token verification failed")
 
-        if (err) return res.sendStatus(403)
+        return user
 
-        req.user = user
+    });
+}
 
-        next()
-    })
+module.exports.parseJwt = (token) => {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace('-', '+').replace('_', '/');
+    return JSON.parse(atob(base64));
 }
 

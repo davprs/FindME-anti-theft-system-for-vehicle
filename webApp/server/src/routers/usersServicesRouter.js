@@ -1,6 +1,5 @@
 const path = require("path");
 const userRelatedRouter = require("express").Router();
-const USER_RELATED_PATHS = ["/signup", "/signin", "/dashboard"];
 const {generateAccessToken,authenticateToken} = require('../auth/manageToken');
 const {newUser, UserModel} = require("../controllers/userController");
 const {newPlate, PlateModel} = require("../controllers/plateController");
@@ -20,20 +19,41 @@ userRelatedRouter.post("/signup", async (req, res) => {
             });
         })
         .then(() => {
-            res.send(generateAccessToken({
+            res.send({token : generateAccessToken({
                 "username": req.body["username"],
-                "email":    req.body["email"],
-                "password": req.body["password"]}));
+                "email":    req.body["email"]/*,
+                "password": req.body["password"]*/}),
+                brand : req.body.brand});
         })
         .catch((err) => {
-            console.log("ERRORE");
             console.log(err);
             res.sendStatus(400);
         })
-}).post("/signin", (req, res) => {
-    authenticateToken(req.body);
-    // TODO : ...
+}).post("/login", (req, res) => {
+
+    return Promise.resolve()
+        .then(async () => await UserModel.findOne({email: req.body.email, password: req.body.password}))
+        .then(async (user) => [user, await PlateModel.findOne({username: user.username})])
+        .then(([user, plate]) => {
+            res.send({token : generateAccessToken({
+                "username": user.username,
+                "email":    user.email/*,
+                "password": req.body["password"]*/}),
+                brand : plate.brand});
+        })
+        .catch((err) => {
+            console.log(err);
+            res.sendStatus(400);
+        })
 })
+    .post('/verify/:token', (req, res) => {
+        Promise.resolve().then(() => authenticateToken(req.params.token))
+            .then(() => res.sendStatus(200))
+            .catch((err) => {
+                console.log(err);
+                res.sendStatus(403);
+            });
+    })
 
 
 
