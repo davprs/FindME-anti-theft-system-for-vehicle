@@ -24,7 +24,7 @@ function DashboardFootButtons({alarm}) {
 
 function DeviceInfo() {
 
-    const [[position, date, alarm, batteryLevel, gpsLevel, internetLevel], setData] = useState([{lat: 42.5, lng: 14.1039731}, new Date(), false, 4, 3, 4]);
+    const [[position, date, alarm, batteryLevel, gpsLevel, internetLevel], setData] = useState([null, new Date(), false, 4, 3, 4]);
 
     useEffect(() => {
         const jsonToken = AuthService.getCurrentUser();

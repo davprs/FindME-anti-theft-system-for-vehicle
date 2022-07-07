@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDoubleRight} from '@fortawesome/fontawesome-free-solid';
 import DeviceInfo from "./DeviceInfo";
 import {useEffect, useState} from "react";
-import {getBrandImage, pathToBrandImage} from "../Helpers/BrandImageHelpers";
+import {getBrandImagePath, pathToBrandImage} from "../Helpers/carBrandHelpers";
 
 
 function MainDashboard() {
@@ -15,7 +15,7 @@ function MainDashboard() {
 
     useEffect(() => {
         const newBrand = getBrand();
-        getBrandImage(newBrand)
+        getBrandImagePath(newBrand)
             .then(imgPath => {
                 setBrand([newBrand, pathToBrandImage(newBrand + " logo", imgPath.data)])
             })

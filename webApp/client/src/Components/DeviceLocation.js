@@ -27,10 +27,16 @@ function Map({position, date}) {
 
     return (
         <div className={"map-container-update"}>
-            <p>Ultimo aggiornamento {dateDiff()} fa</p>
-            <GoogleMap zoom={15} center={position} mapContainerClassName="map-container">
-                <Marker position={position}/>
-            </GoogleMap>
+            {position ? (
+                <>
+                    <p>Ultimo aggiornamento {dateDiff()} fa</p>
+                    <GoogleMap zoom={15} center={position} mapContainerClassName="map-container">
+                        <Marker position={position}/>
+                    </GoogleMap>
+                </>
+                ) : (
+                    <p>Il dispositivo non ha ancora trasmesso alcuna informazione..</p>
+                )}
         </div>
     );
 }
@@ -47,7 +53,6 @@ const render = (status) => {
 
 function DeviceLocation({position, date}) {
     console.log(position)
-
     return (
         <Wrapper apiKey={"AIzaSyA5dmUkhAySaqlDlZRmV12bq_TRZc1_QWI"} render={render} >
             <Map position={position}

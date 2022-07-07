@@ -17,8 +17,10 @@ class AuthService {
                 password
             })
             .then(res => {
+                console.log("login : " + res.data.brand)
                 if (res.data) {
                     document.cookie = "token=" + JSON.stringify(res.data.token);
+                    localStorage.setItem("brand", res.data.brand)
                 }
                 return res.data;
             });
@@ -26,20 +28,23 @@ class AuthService {
 
     logout() {
         document.cookie = "token=; Max-Age=0;secure";
+        localStorage.removeItem("brand")
     }
 
-    register(username, firstName, lastName, email, password, plate, brand) {
+    register(username, firstName, lastName, email, password, plate, deviceID, brand) {
+        console.log("sending : " + username, firstName, lastName, email, password, plate, deviceID, brand)
         return axios.post(API_URL + "signup", {
-            username, firstName, lastName, email, password, plate, brand
+            username, firstName, lastName, email, password, plate, deviceID, brand
         })
         .then((response) => {
             console.log(response.data)
-            document.cookie = "token=" + JSON.stringify(response.data);
+            localStorage.setItem("brand", response.data.brand)
+            document.cookie = "token=" + JSON.stringify(response.data.token);
 
         })
     }
     verifyToken(token) {
-        return axios.post("http://localhost:5000/api/auth/verify/" + token);
+        return axios.post(API_URL + "verify/" + token);
     }
 
     getToken(){

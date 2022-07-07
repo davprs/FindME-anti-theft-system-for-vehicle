@@ -1,23 +1,36 @@
 import PasswordStrengthBar from 'react-password-strength-bar';
 import {useNavigate} from "react-router";
 import {SIGNUP_PATH} from "../Routes";
+import InputSuggest from "./InputSuggest";
+import {getKnownBrandNames} from "../Helpers/carBrandHelpers";
+import {useEffect, useState} from "react";
 
 const SignupForm = (props) => {
 
     let fieldCreated;
     const navigate = useNavigate();
-
+    const [brandNames, setBrandNames] = useState([]);
+    useEffect(() => {
+        if (props.showPlate) {
+            getKnownBrandNames().then(x => {
+                console.log(x.data)
+                setBrandNames(x.data)
+            });
+        }
+    }, [])
     if (props.showPlate) {
-        const notPlate = props.fields.filter(([_, plate]) => plate !== 'plate');
+        const brandSuggestion = props.fields.filter(([_, plate]) => plate === 'brand');
         const plate = props.fields.filter(([_, plate]) => plate === 'plate');
-        const fieldNotPlate = Array.from(notPlate, (field, index) => {
+        const other = props.fields.filter(([_, plate]) => (plate !== 'plate' && plate !== 'brand'));
+        const fieldBrandSuggestion = Array.from(brandSuggestion, (field, index) => {
             return (
                 <>
                     <label htmlFor={field[1]}>{field[0]} :</label>
-                    <input id={field[1]} type={"text"}
-                           placeholder={field[0] + ".."}
-                           value={props.formInputData[field[1]]}
-                           onChange={props.handleInputChange}/>
+                    <InputSuggest hints={brandNames}
+                                  id={field[1]} type={"text"}
+                                  placeholder={field[0] + ".."}
+                                  value={props.formInputData[field[1]]}
+                                  onChange={props.handleInputChange}/>
                     <br/>
                 </>);
         });
@@ -36,7 +49,21 @@ const SignupForm = (props) => {
                     <br/>
                 </>);
         });
-        fieldCreated = fieldNotPlate;
+
+        const fieldOther = Array.from(other, (field, index) => {
+            return (
+                <>
+                    <label htmlFor={field[1]}>{field[0]} :</label>
+                    <input id={field[1]} type={"text"}
+                           placeholder={field[0] + ".."}
+                           value={props.formInputData[field[1]]}
+                           onChange={props.handleInputChange}/>
+                    <br/>
+                </>);
+        });
+
+        fieldCreated = fieldBrandSuggestion;
+        fieldCreated.push(fieldOther);
         fieldCreated.push(fieldPlate);
     } else if (props.containsPassword) {
         fieldCreated = Array.from(props.fields, (field, index) => {

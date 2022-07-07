@@ -16,6 +16,7 @@ const SignupBody = () => {
         lastName:'',
         username:'',
         brand:'',
+        deviceID:'',
         plate:'',
         email:'',
         password:'',
@@ -32,10 +33,19 @@ const SignupBody = () => {
      * Updates form state
      * @param event
      */
-    const handleInputChange = (event) => {
-        const inputFieldValue = event.target.value;
-        const inputFieldName = event.target.id;
-        const NewInputValue = {...formInputData, [inputFieldName]:inputFieldValue}
+    const handleInputChange = (event, newValue, id) => {
+        let NewInputValue, inputFieldValue, inputFieldName;
+        console.log(newValue);
+        if(newValue){
+            inputFieldValue = newValue;
+            inputFieldName = id;
+        } else {
+            inputFieldValue = event.target.value;
+            inputFieldName = event.target.id;
+        }
+
+        NewInputValue = {...formInputData, [inputFieldName]:inputFieldValue}
+
         setFormInputData(NewInputValue);
     }
 
@@ -77,7 +87,8 @@ const SignupBody = () => {
         authService.register(formInputData.username,
             formInputData.firstName, formInputData.lastName,
             formInputData.email, formInputData.password,
-            formInputData.plate, formInputData.brand)
+            formInputData.plate, formInputData.deviceID,
+            formInputData.brand)
             .then(() => console.log(authService.getCurrentUser()))
             .then(() => navigate(DASHBOARD_PATH))
             .catch((error) => {
@@ -89,10 +100,9 @@ const SignupBody = () => {
         <SignupForm fields={[["Nome", "firstName"], ["Cognome", "lastName"], ["Username", "username"]]}
                     formInputData={formInputData}
                     handleInputChange={handleInputChange} />,
-        <SignupForm fields={[["Targa", "plate"], ["Marca", "brand"]]}
+        <SignupForm fields={[["Targa", "plate"], ["Codice dispositivo", "deviceID"], ["Marca", "brand"]]}
                     showPlate={true}
                     containsPassword={false}
-                    passwordField={formInputData.password}
                     formInputData={formInputData}
                     handleInputChange={handleInputChange}/>,
         <SignupForm fields={[["Email", "email"], ["Password", "password"], ["Conferma Password", "passwordConfirm"]]}
