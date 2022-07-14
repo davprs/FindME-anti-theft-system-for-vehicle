@@ -10,7 +10,7 @@ import {
     Login,
     LOGIN_PATH, LOGOUT_PATH,
     Main,
-    PageNotFound, SIGNUP_PATH
+    PageNotFound, SETTINGS_PATH, SIGNUP_PATH
 } from './Routes/index';
 import {BrowserRouter} from "react-router-dom";
 import {Route, Routes} from "react-router";
@@ -33,6 +33,7 @@ root.render(
                   <Route path={SIGNUP_PATH} element={<Signup />} />
                   <Route path={LOGOUT_PATH} element={<Logout />} />
                   <Route path={DASHBOARD_PATH} element={<Dashboard />} />
+                  <Route path={SETTINGS_PATH} element={<Dashboard />} />
                   <Route path={"/*"} element={<PageNotFound />}/>
               </Route>
           </Routes>

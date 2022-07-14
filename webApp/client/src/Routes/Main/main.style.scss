@@ -114,6 +114,55 @@ nav {
     @include theme(background, backgroundLight);
 }
 
+.publicContent {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    p {
+        margin: 3%;
+    }
+    .slideshow {
+        width: 70%;
+        display: flex;
+        justify-self: center;
+        align-items: center;
+
+        .next, .prev {
+            position: absolute;
+            background: white;
+            opacity: 0.5;
+            height: 20%;
+            padding: 3%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            user-select: none;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 18px;
+            z-index: 2;
+            border-radius: 15px;
+        }
+
+        .next {
+            right: 17%;
+        }
+
+        .prev {
+            left: 17%;
+        }
+
+        img {
+            position: relative;
+            border-radius: 20px;;
+            width: 100%;
+            aspect-ratio: 10 / 4;
+            object-fit: cover;
+        }
+    }
+
+}
+
 @media only screen and (max-width: 900px) {
 
     .fullIcon {
@@ -149,7 +198,7 @@ nav {
             display: flex;
             position: absolute;
             left: 0.5%;
-            z-index: 0;
+            z-index: 3;
             margin: 50px 0 0 0;
             flex-direction: column;
             width: 99%;
@@ -221,5 +270,23 @@ nav {
             }
 
         }
+    }
+    .publicContent {
+        .slideshow {
+            width: 95%;
+            .next, .prev {
+                height: 5%;
+                padding: 5%;
+            }
+
+            .next {
+                right: 5%;
+            }
+
+            .prev {
+                left: 5%;
+            }
+        }
+
     }
 }

@@ -2,7 +2,7 @@ import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import { useState } from "react";
 import { GoogleMap, Marker } from "@react-google-maps/api";
 
-function Map({position, date}) {
+function Map({position, date, alarm}) {
 
     const [timeNow, setTime] = useState(new Date());
 
@@ -30,7 +30,7 @@ function Map({position, date}) {
             {position ? (
                 <>
                     <p>Ultimo aggiornamento {dateDiff()} fa</p>
-                    <GoogleMap zoom={15} center={position} mapContainerClassName="map-container">
+                    <GoogleMap zoom={15 + alarm*3} center={position} mapContainerClassName="map-container">
                         <Marker position={position}/>
                     </GoogleMap>
                 </>
@@ -51,12 +51,12 @@ const render = (status) => {
     }
 };
 
-function DeviceLocation({position, date}) {
-    console.log(position)
+function DeviceLocation({position, date, alarm}) {
     return (
         <Wrapper apiKey={"AIzaSyA5dmUkhAySaqlDlZRmV12bq_TRZc1_QWI"} render={render} >
             <Map position={position}
-                 date={date} />
+                 date={date}
+                 alarm={alarm}/>
         </Wrapper>
     );
 }

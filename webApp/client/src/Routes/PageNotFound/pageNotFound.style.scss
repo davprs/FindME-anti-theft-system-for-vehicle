@@ -1,0 +1,127 @@
+@import "../../colors.scss";
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap");
+
+.notFoundContainer {
+  width: 100vw;
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  left: 6vmin;
+  text-align: center;
+
+  h1 {
+    color: #142833;
+  }
+
+  .first-four {
+    position: relative;
+    left: 6vmin;
+    font-size: 40vmin;
+  }
+
+  .second-four {
+    position: relative;
+    right: 18vmin;
+    z-index: -1;
+    font-size: 40vmin;
+  }
+
+  .wrong-para {
+    position: absolute;
+    bottom: 0vmin;
+    padding: 3vmin 12vmin 3vmin 3vmin;
+    font-weight: 600;
+    font-size: clamp(2rem, 4vw, 4rem);
+    color: #092532;
+  }
+
+  @keyframes rotate {
+    from {transform: rotate(0deg)}
+    to {transform: rotate(360deg)}
+  }
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .cog-wheel1, .cog-wheel2 {
+    transform: scale(0.7);
+
+    .cog1, .cog2 {
+      width: 40vmin;
+      height: 40vmin;
+      border-radius: 50%;
+      border: 6vmin solid color(primaryDarkRed);
+      position: relative;
+      animation: rotate 3s infinite backwards linear;
+
+      &.cog2 {
+        position: relative;
+        left: -10.2vmin;
+        bottom: 10vmin;
+        animation-direction: reverse;
+        border: 6vmin solid color(primaryLightRed);
+
+        & .top, & .down, & .left, & .right, & .left-top, & .left-down, & .right-top, & .right-down {
+          background-color: color(primaryLightRed);
+        }
+      }
+
+      .top, .down, .left, .right, .left-top, .left-down, .right-top, .right-down {
+        width: 10vmin;
+        height: 10vmin;
+        background-color: color(primaryDarkRed);
+        position: absolute;
+      }
+
+      .top {
+        top: -14vmin;
+        left: 9vmin;
+      }
+
+      .down {
+        bottom: -14vmin;
+        left: 9vmin;
+      }
+
+      .left {
+        left: -14vmin;
+        top: 9vmin;
+      }
+
+      .right {
+        right: -14vmin;
+        top: 9vmin;
+      }
+
+      .left-top {
+        transform: rotateZ(-45deg);
+        left: -8vmin;
+        top: -8vmin;
+      }
+
+      .left-down {
+        transform: rotateZ(45deg);
+        left: -8vmin;
+        top: 25vmin;
+      }
+
+      .right-top {
+        transform: rotateZ(45deg);
+        right: -8vmin;
+        top: -8vmin;
+      }
+
+      .right-down {
+        transform: rotateZ(-45deg);
+        right: -8vmin;
+        top: 25vmin;
+      }
+    }
+
+  }
+
+}

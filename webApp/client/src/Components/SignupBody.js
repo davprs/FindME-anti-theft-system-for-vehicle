@@ -84,6 +84,11 @@ const SignupBody = () => {
             return;
         }
 
+        if(formInputData.password !== formInputData.passwordConfirm){
+            alert('Le password non coincidono!');
+            return;
+        }
+
         authService.register(formInputData.username,
             formInputData.firstName, formInputData.lastName,
             formInputData.email, formInputData.password,

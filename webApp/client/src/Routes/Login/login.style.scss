@@ -28,7 +28,7 @@
   flex-wrap: wrap;
   align-items: center;
   align-content: center;
-  row-gap: clamp(20px, 10%, 30px);
+  row-gap: 0px;
 
   width: 60%;
   margin: 10% auto auto auto;
@@ -39,18 +39,49 @@
   padding: 1rem;
   overflow: hidden;
 
+  #brand:focus ~ #react-autowhatever-1 {
+    height: 10vh;
+  }
+
+  #react-autowhatever-1{
+    position: relative;
+    top: 0px;
+    width: 80%;
+    margin: 0 auto auto auto;
+    overflow:hidden;
+    overflow-y:scroll;
+
+    & li{
+      list-style-type: none;
+      &:hover{
+        @include theme(background-color, backgroundDark)
+      }
+    }
+  }
+
   label {
-    margin-left: 1%;
+    margin: 10px 0 0 1%;
     font-size: 1.2rem;
     flex-basis: 100%;
+  }
+
+  &>div[role=combobox]{
+    width: 98%;
   }
 
   input[type=text], input[type=password] {
     display: block;
     width: 80%;
-    margin: 2% 10% 0 10%;
+    height: 2rem;
+    margin: 1% 10% 1% 10%;
     font-size: 1.1rem;
-
+  }
+  span {
+    margin-top: 5%;
+    input[type=text] {
+      height: auto;
+      margin-bottom: 0;
+    }
   }
 }
 
@@ -174,6 +205,9 @@
   .signupFormFrame {
     row-gap: clamp(5px, 10%, 20px);
 
+    #react-autowhatever-1{
+      width: 90%;
+    }
     input[type=text], input[type=password] {
       margin: 0% 10% 0px 10%;
     }

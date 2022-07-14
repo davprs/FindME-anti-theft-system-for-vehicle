@@ -1,41 +1,85 @@
 import authService from "../../Auth/auth.service";
 import MainHeader from "../../Components/MainHeader";
-import {HOME_PATH, INFO_PATH, CONTACTS_PATH, LOGIN_PATH, DASHBOARD_PATH, LOGOUT_PATH, HOME_PATH_COMP} from "../index";
+import {
+    LOGIN_PATH,
+    DASHBOARD_PATH,
+    LOGOUT_PATH,
+    HOME_PATH_COMP,
+    SETTINGS_PATH
+} from "../index";
 import MainDashboard from "../../Components/MainDashboard";
 import {useEffect, useState} from "react";
 
 import { Navigate } from "react-router-dom";
+import {useNavigate} from "react-router";
+import DashboardSettings from "../../Components/DashboardSettings";
 
-const pages = [
-    <MainDashboard />,
-    <p>Change Device</p>,
-];
 
 function Dashboard() {
-
     const [isLoggedIn, setLogIn] = useState(null);
+    const [darkTheme, setDarkTheme] = useState(JSON.parse(localStorage.getItem('themeDark')));
+    const navigate = useNavigate();
+    const lightThemeBG = "#B32D30";
+    const darkThemeBG = '#801810';
 
-    console.log("auth : " + authService.getToken());
-    authService.verifyToken(authService.getToken())
-        .then(res => {
-            console.log(res)
-            setLogIn(true);
-            console.log(isLoggedIn)
-        })
-        .catch((err) => {
-            console.log(err);
-            setLogIn(false);
-        });
+    function toggleHtmlTheme () {
+        document.querySelector("html").classList.toggle("light");
+        document.querySelector("html").classList.toggle("dark");
+    }
 
+    const pages = [
+        <MainDashboard />,
+        <DashboardSettings toggleHtmlTheme={toggleHtmlTheme} darkTheme={darkTheme} setDarkTheme={setDarkTheme}/>
+    ];
 
     useEffect(() => {
-        document.body.style.backgroundColor = "#B32D30";
+        Promise.resolve()
+            .then(() => authService.getToken())
+            .then(token => authService.verifyToken(token))
+            .then(async res => {
+                console.log(res)
+                await setLogIn(true);
+                console.log(isLoggedIn)
+            })
+            .catch((err) => {
+                console.log(err);
+                setLogIn(false);
+                navigate(LOGIN_PATH);
+            });
+        console.log(JSON.parse(localStorage.getItem('themeDark')))
+        if (JSON.parse(localStorage.getItem('themeDark'))){
+            setDarkTheme(true);
+        } else {
+            setDarkTheme(false);
+        }
+
         document.title = "Dashboard FindME";
 
+    }, []);
+
+    useEffect( () => {
+        if (darkTheme){
+            if (document.querySelector("html").classList.contains("light")){
+                toggleHtmlTheme();
+            }
+            console.log('setting dark background')
+            document.body.style.backgroundColor = darkThemeBG;
+            localStorage.setItem('themeDark', 'true');
+        } else {
+            if (document.querySelector("html").classList.contains("dark")){
+                toggleHtmlTheme();
+            }
+            document.body.style.backgroundColor = lightThemeBG;
+            localStorage.setItem('themeDark', 'false');
+        }
+
         return function cleanup() {
+            if (document.querySelector("html").classList.contains("dark")){
+                toggleHtmlTheme();
+            }
             document.body.style.backgroundColor = null;
         }
-    }, []);
+    }, [darkTheme])
 
 
     if (isLoggedIn === null){
@@ -43,8 +87,8 @@ function Dashboard() {
     } else if (isLoggedIn === true){
         return (
             <>
-                <MainHeader paths={[DASHBOARD_PATH, INFO_PATH, CONTACTS_PATH, LOGOUT_PATH]}
-                            pathNames={["Dash Board", "Change Device", "Notifiche", "Logout"]}
+                <MainHeader paths={[DASHBOARD_PATH, SETTINGS_PATH, LOGOUT_PATH]}
+                            pathNames={["Dash Board", "Settings", "Logout"]}
                             pages={pages}/>
             </>);
     } else {

@@ -3,6 +3,7 @@ import DeviceLocation from "./DeviceLocation";
 import {io} from 'socket.io-client';
 import {useEffect, useState} from "react";
 import AuthService from "../Auth/auth.service";
+import {AnimatePresence, motion} from "framer-motion";
 
 
 function DashboardFootButtons({alarm}) {
@@ -11,7 +12,7 @@ function DashboardFootButtons({alarm}) {
         <div className={"dashboardFootButtons"}>
             <button className={"theft"}
                     disabled={!alarm}
-                    onClick={()=>{window.location.href="tel:3392071583"}}>
+                    onClick={()=>{window.location.href="tel:119"}}>
                 Furto
             </button>
             <button className={"help"}
@@ -37,11 +38,11 @@ function DeviceInfo() {
                 "authorization": "bearer"
             }
         });
-        socket.emit('client connection', 'ciao');
+        socket.emit('client connection', 'connection');
         socket.on('connect_error', () => {
             setTimeout(() => socket.connect(), 10000)
         })
-        socket.on({username: '1', email: '1', alarm: false}.toString(), ([data, alarm]) => {
+        socket.on({username : username, email: email}.toString(), ([data, alarm]) => {
             setData([{lat: data.gpsPos.x, lng: data.gpsPos.y},
                 new Date(data.updatedAt),
                 alarm,
@@ -53,16 +54,44 @@ function DeviceInfo() {
         socket.on('disconnect', () => console.log("server disconnected"))
     }, []);
 
+    const [isVisible, setVisible] = useState(false)
+    useEffect(() => {
+        setVisible(alarm);
+    }, [alarm]);
     return (
+        <>
+            <AnimatePresence>
+                {isVisible && (
+                    <motion.div
+                        id={"alarm"}
+                        initial="enter"
+                        animate="center"
+                        exit={{ opacity: 0 }}
+                        onTap={() => setVisible(false)}>
+                    <motion.div
+                        id={"alarmContent"}
+                        initial={{ opacity: 0, scale: 0.75 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0 }}
+                    >
+                        <h2>FURTO IN CORSO!</h2>
+                        <h3>contatta le autorità competenti</h3>
+                    </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
             <div className={"deviceInfo"}>
+
                 <DeviceStatus internetSignal={internetLevel} />
                 <DeviceGPSSignal gpsSignal={gpsLevel} />
                 <DeviceBatteryLevel batteryLevel={batteryLevel} />
 
-                <DeviceLocation position={position} date={date}/>
+                <DeviceLocation position={position} date={date} alarm={alarm}/>
                 <DashboardFootButtons alarm={alarm}/>
 
             </div>
+        </>
     );
 }
 

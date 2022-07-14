@@ -27,7 +27,8 @@ const SignupForm = (props) => {
                 <>
                     <label htmlFor={field[1]}>{field[0]} :</label>
                     <InputSuggest hints={brandNames}
-                                  id={field[1]} type={"text"}
+                                  id={field[1]}
+                                  type={"text"}
                                   placeholder={field[0] + ".."}
                                   value={props.formInputData[field[1]]}
                                   onChange={props.handleInputChange}/>
