@@ -14,7 +14,7 @@ const io = require('socket.io')(http, {
     }
 });
 var cookie = require("cookie")
-const {saveCheck, getLastKnownData} = require('./src/controllers/hardwareIOController');
+const {saveCheck, getLastKnownData, isLastTheftInTimeWindow} = require('./src/controllers/hardwareIOController');
 const publicInfoRouter = require('./src/routers/publicInfoRouter');
 const userRelatedRouter = require("./src/routers/usersServicesRouter");
 const {verify} = require("jsonwebtoken");
@@ -23,6 +23,7 @@ const {Promise} = require("mongoose");
 const brandImageRouter = require("./src/routers/carBrandRouter");
 const {PlateModel} = require("./src/controllers/plateController");
 const {UserModel} = require("./src/controllers/userController");
+const {sendNotificationEmail} = require("./src/controllers/notificationController");
 
 const EXPRESS_PORT = 5000;
 const SOCKETIO_PORT = 4000;
@@ -61,7 +62,8 @@ io.on('connection', (socket) => {
                                 socket.emit({username: username, email: email}, [res, alarm]);
                             })
                             .catch(err => console.log(err));
-                    });
+                    })
+                    .catch((err) => console.log(err));
             })
             .catch((err) => console.log(err))
 
@@ -69,20 +71,48 @@ io.on('connection', (socket) => {
 
     socket.on("normal state", (msg)=> {
         saveCheck(JSON.parse(msg), false)
-            .then((new_doc) => [new_doc, PlateModel.findOne({deviceID: new_doc.deviceID})])
-            .then(([new_doc, plate]) => [new_doc, UserModel.findOne({username: plate.username})])
+            .then(async (new_doc) => {
+                const plate = await PlateModel.findOne({deviceID: new_doc.deviceID});
+                return [new_doc, plate]
+            })
+            .then(async (res) => {
+                const user = await UserModel.findOne({username: res[1].username})
+                return [res[0], user];
+            })
             .then(([new_doc, user]) => {
                 io.emit({username : user.username, email: user.email}.toString(), [new_doc, false])
             })
+            .catch(err => console.log(err))
     });
 
     socket.on("alarm state", (msg)=>{
         saveCheck(JSON.parse(msg), true)
-            .then((new_doc) => [new_doc, PlateModel.findOne({deviceID: new_doc.deviceID})])
-            .then(([new_doc, plate]) => [new_doc, UserModel.findOne({username: plate.username})])
-            .then(([new_doc, user]) => {
-                io.emit({username : user.username, email: user.email}.toString(), [new_doc, true])
+            .then(async (new_doc) => {
+                const plate = await PlateModel.findOne({deviceID: new_doc.deviceID});
+                return [new_doc, plate]
             })
+            .then(async (res) => {
+                const user = await UserModel.findOne({username: res[1].username})
+                return [res[0], res[1], user];
+            })
+            .then(([new_doc, plate, user]) => {
+                io.emit({username : user.username, email: user.email}.toString(), [new_doc, true]);
+                return [new_doc, plate, user];
+            })
+            .then(async ([new_doc, plate, user]) => {
+
+                isLastTheftInTimeWindow(new_doc, 4)
+                    .then((res) => {
+                        const notify = ! Boolean(res);
+                        if (notify) {
+                            console.log("sending email!!!")
+                            //sendNotificationEmail(user, plate); //TODO remove in prod
+
+                        }
+                    })
+                    .catch(err => console.log(err))
+            })
+            .catch(err => console.log(err))
     });
 });
 

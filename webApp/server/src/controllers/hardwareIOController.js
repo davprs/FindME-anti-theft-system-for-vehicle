@@ -37,6 +37,15 @@ module.exports.getLastKnownData = (deviceID) => {
         });
 }
 
+module.exports.isLastTheftInTimeWindow = async (new_doc, timeWindow) => {
+    return await AlarmDeviceInfo.findOne({
+        deviceID: new_doc.deviceID, createdAt: {
+            $gte: new Date(new Date(new_doc.createdAt) - 1000 * timeWindow),
+            $lt: new Date(new_doc.createdAt)
+        }
+    });
+}
+
 getLastNormal = (deviceID) => {
     return NormalDeviceInfo.findOne({"deviceID": deviceID});
 }

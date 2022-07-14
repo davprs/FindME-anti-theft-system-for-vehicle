@@ -47,7 +47,8 @@ userRelatedRouter.post("/signup", async (req, res) => {
         })
 })
     .post('/verify/:token', (req, res) => {
-        Promise.resolve().then(() => authenticateToken(req.params.token))
+        Promise.resolve()
+            .then(async () => await authenticateToken(req.params.token))
             .then(() => res.sendStatus(200))
             .catch((err) => {
                 console.log(err);

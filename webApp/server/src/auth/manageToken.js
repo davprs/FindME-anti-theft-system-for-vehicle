@@ -6,7 +6,9 @@ module.exports.generateAccessToken = (credentials) => {
 }
 
 module.exports.authenticateToken = (token) => {
-    if (token == null) throw new Error("401 - Token is null");
+    if (token == null) {
+        throw new Error("401 - Token is null");
+    }
 
     return jwt.verify(token, tokenSecret, (err, user) => {
         console.log("error : " + err)
