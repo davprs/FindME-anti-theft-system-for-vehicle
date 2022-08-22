@@ -6,6 +6,9 @@ import {
     MainPublicPaths
 } from "../index";
 
+import robber from "../../Assets/Images/robber.png";
+import car from "../../Assets/Images/car.png";
+
 function PageNotFound(){
     return (
         <>
@@ -43,6 +46,8 @@ function PageNotFound(){
                 <h1 className="second-four">4</h1>
                 <p className="wrong-para">Page not found!</p>
             </div>
+            <div className={"robberImageContainer"}><img src={robber} width="150px" height="200px"/></div>
+            <div className={"carImageContainer"}><img src={car} width="300px" height="150px"/></div>
         </>
     );
 }

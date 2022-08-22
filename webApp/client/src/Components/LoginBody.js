@@ -54,11 +54,11 @@ const LoginBody = () => {
         }
 
         authService.login(formInputData.email, formInputData.password)
-            .then((resData) => localStorage.setItem("brand", resData.brand))
+            .then(async (resData) => await localStorage.setItem("brand", resData.brand))
             .then(() => console.log(authService.getCurrentUser()))
             .then(() => navigate(DASHBOARD_PATH))
             .catch((error) => {
-                alert('Email o Password non corretti😅');
+                alert('Email o Password non corretti😅' + error);
                 console.log(error);
             });
     }
@@ -66,7 +66,6 @@ const LoginBody = () => {
     const pages = [
         <SignupForm fields={[["Email", "email"], ["Password", "password"]]}
                     formInputData={formInputData}
-                    containsPassword={true}
                     isSignup={false}
                     handleInputChange={handleInputChange} />
     ];

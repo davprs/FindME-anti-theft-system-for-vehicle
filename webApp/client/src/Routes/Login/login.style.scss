@@ -34,12 +34,12 @@
   margin: 10% auto auto auto;
   border-radius: 25px;
   box-shadow: color(primaryLightRed) 20px 10px 30px -10px;
-  border-color: black;
-  border-style: solid;
+  @include theme(border-color, backgroundDark);
+  border: solid 1px;
   padding: 1rem;
   overflow: hidden;
 
-  #brand:focus ~ #react-autowhatever-1 {
+  #brand:invalid:focus ~ #react-autowhatever-1 {
     height: 10vh;
   }
 
@@ -75,6 +75,9 @@
     height: 2rem;
     margin: 1% 10% 1% 10%;
     font-size: 1.1rem;
+    border: solid 2px;
+    border-color: color(myLightGrey);
+    border-radius: 10px;
   }
   span {
     margin-top: 5%;
@@ -108,7 +111,7 @@
 
     &:hover {
       @include theme(color, textHighContrast);
-      transform: scale(1.2);
+      transform: scale(1.1);
 
     }
   }
@@ -120,10 +123,10 @@
     transition: transform 100ms;
 
     &:hover {
-      background-color: #E2323796;
+      background-color: #f5696d;
       color: white;
-      border-color: #E2323796;
-      transform: scale(1.2);
+      border-color: #e23237;
+      transform: scale(1.1);
 
 
     }

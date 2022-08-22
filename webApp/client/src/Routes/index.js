@@ -4,6 +4,10 @@ import PageNotFound from "./PageNotFound/pageNotFound";
 import Dashboard from "./Dashboard/dashboard";
 import Home from "../Components/Home";
 import Info from "../Components/Info";
+import Contacts from "../Components/Contacts";
+import DashboardSettings from "../Components/DashboardSettings";
+import Logout from "./Login/logout";
+import MainDashboard from "../Components/MainDashboard";
 
 function objectFlip(obj) {
     return Object.keys(obj).reduce((ret, key) => {
@@ -33,9 +37,18 @@ export const PATH_DICT_INV = objectFlip(PATH_DICT)
 export const MainPublicPages = [
     <Home />,
     <Info />,
-    <p>ciao</p>,
+    <Contacts />,
 ];
 export const MainPublicPathNames = ["Home", "Info", "Contatti", "Login"];
 export const MainPublicPaths = [HOME_PATH, INFO_PATH, CONTACTS_PATH, LOGIN_PATH];
+
+
+export const MainUserPages = [
+    <MainDashboard />,
+    <DashboardSettings />,
+    <Logout />,
+];
+export const MainUserPathNames = ["Dash Board", "Settings", "Logout"];
+export const MainUserPaths = [DASHBOARD_PATH, SETTINGS_PATH, LOGOUT_PATH];
 
 export {Main, Login, PageNotFound, Dashboard};

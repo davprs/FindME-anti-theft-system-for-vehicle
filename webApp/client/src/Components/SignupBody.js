@@ -54,7 +54,7 @@ const SignupBody = () => {
      * @param newDirection
      */
     const paginate = (newDirection) => {
-        if (page + newDirection >=  0){
+        if (page + newDirection >=  0 && page + newDirection < pages.length){
             setPage([page + newDirection, newDirection]);
         }
     };

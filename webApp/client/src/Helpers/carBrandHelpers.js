@@ -1,5 +1,6 @@
 import axios from "axios";
-const API_URL = "http://127.0.0.1:5000/api/car_brand/";
+import {serverStaticIP} from "./serverAddress";
+const API_URL = "http://" + serverStaticIP + ":5000/api/car_brand/";
 
 
 export const getBrandImagePath = (newBrand) => {

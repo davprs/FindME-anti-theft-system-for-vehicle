@@ -1,4 +1,15 @@
 @import '../../colors.scss';
+
+#userPage {
+  div{
+    @include theme (color, textHighContrast);
+  }
+
+  p {
+    @include theme (color, textHighContrast);
+  }
+}
+
 .carPicker {
   display: flex;
   justify-self: center;
@@ -40,6 +51,7 @@
     margin: 70px auto;
     padding: 20px;
     background: #fff;
+    color: black;
     border-radius: 5px;
     width: 30%;
     position: relative;
@@ -48,6 +60,7 @@
   }
 }
 .deviceInfo {
+
   $goodStatus: #16a085;
   $okStatus: #f1c40f;
   $badStatus: #e74c3c;
@@ -228,10 +241,18 @@
       display: flex;
       justify-content: center;
       border-radius: 5px;
-      background-color: lightgreen;
-      border-color: green;
+      @include theme (background-color, backgroundDark);
+      @include theme(color, textHighContrast);
+      opacity: 0.4;
+      border-color: grey;
       width: 48%;
       font-size: 1.5rem;
+      &:not([disabled]){
+        @include theme(color, backgroundLight);
+        background-color: #26D25A;
+        opacity: 1;
+        border-color: green;
+      }
       &.theft {
         align-items: center;
         width: 100%;
@@ -536,9 +557,7 @@
         justify-content: center;
         z-index: 1;
         border-radius: 5px;
-        background-color: lightgreen;
         padding: 10px 0 10px 0;
-        border-color: green;
         width: 48%;
         font-size: 1.5rem;
 

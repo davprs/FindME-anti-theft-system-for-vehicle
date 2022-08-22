@@ -1,11 +1,8 @@
 import authService from "../../Auth/auth.service";
 import MainHeader from "../../Components/MainHeader";
 import {
-    LOGIN_PATH,
-    DASHBOARD_PATH,
-    LOGOUT_PATH,
-    HOME_PATH_COMP,
-    SETTINGS_PATH
+    LOGIN_PATH, HOME_PATH_COMP,
+    MainUserPaths, MainUserPathNames
 } from "../index";
 import MainDashboard from "../../Components/MainDashboard";
 import {useEffect, useState} from "react";
@@ -86,11 +83,11 @@ function Dashboard() {
         return <p>Loading..</p>
     } else if (isLoggedIn === true){
         return (
-            <>
-                <MainHeader paths={[DASHBOARD_PATH, SETTINGS_PATH, LOGOUT_PATH]}
-                            pathNames={["Dash Board", "Settings", "Logout"]}
+            <div id={"userPage"}>
+                <MainHeader paths={MainUserPaths}
+                            pathNames={MainUserPathNames}
                             pages={pages}/>
-            </>);
+            </div>);
     } else {
         return <Navigate to={HOME_PATH_COMP}/>;
     }

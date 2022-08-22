@@ -59,7 +59,8 @@ class InputSuggest extends React.Component {
             id: this.state.id,
             placeholder: this.state.placeholder,
             value: this.props.value,
-            onChange: this.onChangeSuggestion
+            onChange: this.onChangeSuggestion,
+            pattern: ""
         };
 
         return (

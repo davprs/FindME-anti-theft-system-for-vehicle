@@ -11,7 +11,7 @@ function Login(){
     useEffect(() => {
         Promise.resolve()
             .then(() => authService.getToken())
-            .then((token) => authService.verifyToken(token))
+            .then(async (token) => await authService.verifyToken(token))
             .then(() => navigate(DASHBOARD_PATH))
             .catch((err) => console.log(err));
     }, []);

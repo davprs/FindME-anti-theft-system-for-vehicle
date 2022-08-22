@@ -5,6 +5,7 @@ import {
     MainPublicPathNames, MainPublicPaths
 } from "../index";
 import {useEffect} from "react";
+import Footer from "../../Components/Footer";
 
 
 function Main(){
@@ -12,11 +13,12 @@ function Main(){
         document.title = "FindME"
     }, []);
     return (
-        <>
+        <div id={"page"}>
             <MainHeader paths={MainPublicPaths}
                         pathNames={MainPublicPathNames}
                         pages={MainPublicPages}/>
-        </>);
+            <Footer />
+        </div>);
 }
 
 

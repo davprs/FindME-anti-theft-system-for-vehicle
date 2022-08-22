@@ -4,20 +4,21 @@ import {io} from 'socket.io-client';
 import {useEffect, useState} from "react";
 import AuthService from "../Auth/auth.service";
 import {AnimatePresence, motion} from "framer-motion";
+import {serverStaticIP} from "../Helpers/serverAddress";
 
 
 function DashboardFootButtons({alarm}) {
     console.log(alarm)
     return (
         <div className={"dashboardFootButtons"}>
+            <button className={"help"}
+                    onClick={()=>{window.location.href="mailto:davide.crisante3@studio.unibo.it"}}>
+                Assistenza
+            </button>
             <button className={"theft"}
                     disabled={!alarm}
                     onClick={()=>{window.location.href="tel:119"}}>
                 Furto
-            </button>
-            <button className={"help"}
-                    onClick={()=>{window.location.href="mailto:davide.crisante3@studio.unibo.it"}}>
-               Assistenza
             </button>
         </div>
     );
@@ -29,10 +30,11 @@ function DeviceInfo() {
 
     useEffect(() => {
         const jsonToken = AuthService.getCurrentUser();
+        console.log(AuthService.getToken())
         const username = jsonToken.username;
         const email = jsonToken.email;
 
-        const socket = io('http://localhost:4000', {
+        const socket = io('http://' + serverStaticIP + ':4000', {
             withCredentials: true,
             extraHeaders: {
                 "authorization": "bearer"
@@ -42,7 +44,8 @@ function DeviceInfo() {
         socket.on('connect_error', () => {
             setTimeout(() => socket.connect(), 10000)
         })
-        socket.on({username : username, email: email}.toString(), ([data, alarm]) => {
+        console.log("listening to " + JSON.stringify({'username' : username, 'email': email}))
+        socket.on(JSON.stringify({'username' : username, 'email': email}), ([data, alarm]) => {
             setData([{lat: data.gpsPos.x, lng: data.gpsPos.y},
                 new Date(data.updatedAt),
                 alarm,

@@ -1,6 +1,8 @@
 import axios from "axios";
+import {serverStaticIP} from "../Helpers/serverAddress";
 import cookie from "cookie";
-const API_URL = "http://127.0.0.1:5000/api/auth/";
+
+const API_URL = "http://" + serverStaticIP + ":5000/api/auth/";
 
 class AuthService {
 
@@ -25,7 +27,7 @@ class AuthService {
             .then(res => {
                 if (res.data) {
                     document.cookie = "token=" + JSON.stringify(res.data.token);
-                    localStorage.setItem("brand", res.data.brand)
+                    localStorage.setItem("brand", res.data.brand);
                 }
                 return res.data;
             });
@@ -36,7 +38,7 @@ class AuthService {
      */
     logout() {
         document.cookie = "token=; Max-Age=0;secure";
-        localStorage.removeItem("brand")
+        localStorage.removeItem("brand");
     }
 
     /**

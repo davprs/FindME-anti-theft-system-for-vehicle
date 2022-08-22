@@ -41,6 +41,7 @@
     from {transform: rotate(0deg)}
     to {transform: rotate(360deg)}
   }
+
   * {
     margin: 0;
     padding: 0;
@@ -124,4 +125,53 @@
 
   }
 
+}
+
+div.robberImageContainer {
+  width: 10px;
+  height: 100px;
+  position: fixed;
+  opacity: 0;
+  animation-name: robberAnimation;
+  animation-duration: 2s;
+  animation-delay: 1.5s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  z-index: -1;
+}
+
+div.carImageContainer {
+  width: 10px;
+  height: 100px;
+  position: fixed;
+  bottom: 0px;
+  opacity: 0;
+
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  animation-name: carAnimation;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  z-index: -1;
+}
+
+@keyframes robberAnimation {
+  0%   {left:-2%; bottom:50px; opacity: 0;}
+  10%  {left:10%; bottom:000px; opacity: 0.5;}
+  20%  {left:20%; bottom:50px;}
+  30%  {left:30%; bottom:000px;}
+  40%  {left:40%; bottom:50px;}
+  50%  {left:50%; bottom:00px;}
+  60%  {left:60%; bottom:50px;}
+  70%  {left:70%; bottom:00px;}
+  80%  {left:80%; bottom:50px;}
+  90%  {left:90%; bottom:00px; opacity: 0.5;}
+  100% {left:100%; bottom:50px; opacity: 0.0;}
+}
+
+@keyframes carAnimation {
+  0%   {left:-2%; bottom:0px; opacity: 0;}
+  10%  {left:10%; bottom:000px; opacity: 0.5;}
+  90%  {left:90%; bottom:00px; opacity: 0.5;}
+  100% {left:100%; bottom:0px; opacity: 0.0;}
 }
