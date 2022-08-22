@@ -7,13 +7,12 @@ const {createServer} = require('http');
 const http = createServer(app);
 const io = require('socket.io')(http, {
     cors: {
-        origin: "http://localhost:3000",
         methods: ["GET", "POST"],
         allowedHeaders: ["authorization"],
         credentials: true
     }
 });
-var cookie = require("cookie")
+const cookie = require("cookie");
 const {saveCheck, getLastKnownData, isLastTheftInTimeWindow} = require('./src/controllers/hardwareIOController');
 const publicInfoRouter = require('./src/routers/publicInfoRouter');
 const userRelatedRouter = require("./src/routers/usersServicesRouter");
@@ -33,7 +32,7 @@ mongoose.connect('mongodb://localhost:27017/FindME');
 
 app.use(cors());
 
-//app.use(express.static(path.join(appRoot, "build")));
+//app.use(express.static(path.join(appRoot, "build"))); //TODO remove in prod
 
 http.listen(SOCKETIO_PORT, ()=>{
     console.log("SocketIO listen on port " + SOCKETIO_PORT)
@@ -59,7 +58,7 @@ io.on('connection', (socket) => {
                     .then((plate) => {
                         getLastKnownData(plate.deviceID)
                             .then(([res, alarm]) => {
-                                socket.emit({username: username, email: email}, [res, alarm]);
+                                socket.emit(JSON.stringify({username: username, email: email}), [res, alarm]);
                             })
                             .catch(err => console.log(err));
                     })
@@ -80,7 +79,7 @@ io.on('connection', (socket) => {
                 return [res[0], user];
             })
             .then(([new_doc, user]) => {
-                io.emit({username : user.username, email: user.email}.toString(), [new_doc, false])
+                io.emit(JSON.stringify({username : user.username, email: user.email}), [new_doc, false])
             })
             .catch(err => console.log(err))
     });
@@ -96,7 +95,7 @@ io.on('connection', (socket) => {
                 return [res[0], res[1], user];
             })
             .then(([new_doc, plate, user]) => {
-                io.emit({username : user.username, email: user.email}.toString(), [new_doc, true]);
+                io.emit(JSON.stringify({username : user.username, email: user.email}), [new_doc, true]);
                 return [new_doc, plate, user];
             })
             .then(async ([new_doc, plate, user]) => {
