@@ -11,7 +11,8 @@ import java.util.Arrays;
 public class MainGUI extends JPanel {
 
     private static final Integer MONITOR_TIMEOUT = 2500;
-    private static final Integer SIGNAL_INIT_AND_MAX = 3;
+    private static final Integer SIM_INIT_AND_MAX = 4;
+    private static final Integer GPS_INIT_AND_MAX = 3;
     private static final Integer BATTERY_INIT_AND_MAX = 4;
     private static final Integer DEFAULT_TIMER_VALUE = 10;
     private static final Integer ALARMED_TIMER_VALUE = 3;
@@ -20,7 +21,7 @@ public class MainGUI extends JPanel {
     private Timer timer;
     private GpsPointsGetter gps;
 
-    private String deviceIDValue;
+    private String deviceIDValue = "1";
 
     private JSlider simSignalQuality, gpsSignalQuality, batteryLevel;
     private JCheckBox isMoving, isBeaconNear;
@@ -54,23 +55,23 @@ public class MainGUI extends JPanel {
         this.secondsInput.setColumns(4);
         this.btnChangeTimer = new JButton("set timer");
 
-        this.simSignalQuality = new JSlider(0, SIGNAL_INIT_AND_MAX, SIGNAL_INIT_AND_MAX);
+        this.simSignalQuality = new JSlider(1, SIM_INIT_AND_MAX, SIM_INIT_AND_MAX);
         this.simSignalQuality.setMinorTickSpacing(1);
         this.simSignalQuality.setMajorTickSpacing(1);
         this.simSignalQuality.setPaintTicks(true);
 
-        this.gpsSignalQuality = new JSlider(0, SIGNAL_INIT_AND_MAX, SIGNAL_INIT_AND_MAX);
+        this.gpsSignalQuality = new JSlider(1, GPS_INIT_AND_MAX, GPS_INIT_AND_MAX);
         this.gpsSignalQuality.setMinorTickSpacing(1);
         this.gpsSignalQuality.setMajorTickSpacing(1);
         this.gpsSignalQuality.setPaintTicks(true);
 
-        this.batteryLevel = new JSlider(0, BATTERY_INIT_AND_MAX, BATTERY_INIT_AND_MAX);
+        this.batteryLevel = new JSlider(1, BATTERY_INIT_AND_MAX, BATTERY_INIT_AND_MAX);
         this.batteryLevel.setMinorTickSpacing(1);
         this.batteryLevel.setMajorTickSpacing(1);
         this.batteryLevel.setPaintTicks(true);
 
-        this.lblGpsSignal = new JLabel(SIGNAL_INIT_AND_MAX.toString());
-        this.lblSimSignal = new JLabel(SIGNAL_INIT_AND_MAX.toString());
+        this.lblGpsSignal = new JLabel(GPS_INIT_AND_MAX.toString());
+        this.lblSimSignal = new JLabel(SIM_INIT_AND_MAX.toString());
         this.lblBatteryLevel = new JLabel(BATTERY_INIT_AND_MAX.toString());
 
         this.isMoving = new JCheckBox("is moving?");
@@ -80,7 +81,7 @@ public class MainGUI extends JPanel {
         this.serverAddressInput.setColumns(15);
         this.btnChangeServerAddress = new JButton("Change address");
 
-        this.deviceIDInput = new JTextField("1");
+        this.deviceIDInput = new JTextField(deviceIDValue);
         this.deviceIDInput.setColumns(25);
         this.btnChangeDeviceID = new JButton("Change device ID");
     }
