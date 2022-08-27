@@ -20,7 +20,7 @@ module.exports.sendNotificationEmail = (user, plate) => {
         '\\': '',
         '\"' : '\''
     }[str]);
-    const compiledFunction = pug.compileFile(path.resolve(appRoot, './src/Templates/theftAlarmEmail.pug'));
+    const compiledFunction = pug.compileFile(path.resolve(appRoot, './src/Templates/theftAlarmEmail.pug'), []);
 
     const templateBody = compiledFunction({
         name: firstName + ' ' + lastName,

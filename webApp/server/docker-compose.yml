@@ -1,0 +1,25 @@
+version: '3'
+services:
+  node:
+    restart: always
+    build: .
+    ports:
+      - 80:5000
+      - 5000:5000
+      - 4000:4000
+    volumes:
+      - ./:/code
+    links:
+      - "mongo:mongo"
+  mongo:
+    image: mongo:5.0.5
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_DATABASE: FindME
+    volumes:
+      - mongodb:/data/db
+      - ./init-mongodb:/docker-entrypoint-initdb.d
+      - ./init-mongodb/data:/tmp/data
+volumes:
+ mongodb:
