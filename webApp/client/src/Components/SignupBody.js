@@ -8,6 +8,7 @@ import LoginFormPage from "./LoginFormPage";
 import authService from "../Auth/auth.service";
 import {useNavigate} from "react-router";
 import {DASHBOARD_PATH} from "../Routes";
+import {createToast, createToastWarning} from "./Toast";
 
 const SignupBody = () => {
     const [[page, direction], setPage] = useState([0, 0]);
@@ -80,12 +81,12 @@ const SignupBody = () => {
         });
         if(hasEmptyInput)
         {
-            alert('🚀 Ci siamo quasi! 🚀\nRicorda di riempire tutti i campi 😊');
+            createToastWarning('🚀 Ci siamo quasi! 🚀 Ricorda di riempire tutti i campi 😊');
             return;
         }
 
         if(formInputData.password !== formInputData.passwordConfirm){
-            alert('Le password non coincidono!');
+            createToastWarning('Le password non coincidono!');
             return;
         }
 
@@ -97,6 +98,7 @@ const SignupBody = () => {
             .then(() => console.log(authService.getCurrentUser()))
             .then(() => navigate(DASHBOARD_PATH))
             .catch((error) => {
+                createToastWarning('Email o Username già in uso. Prova a cambiarli!');
                 console.log(error);
             });
     }

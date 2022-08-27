@@ -16,28 +16,30 @@ import {BrowserRouter} from "react-router-dom";
 import {Route, Routes} from "react-router";
 import Signup from "./Routes/Login/signup";
 import Logout from "./Routes/Login/logout";
+import Toast from "./Components/Toast";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-document.querySelector("html").classList.add("light");
-
 root.render(
-    <BrowserRouter basename={"/"}>
-        <Routes>
-              <Route path={HOME_PATH_COMP}>
-                  <Route index element={<Main />} />
-                  <Route path={HOME_PATH_COMP} element={<Main />} />
-                  <Route path={HOME_PATH} element={<Main />} />
-                  <Route path={INFO_PATH} element={<Main />} />
-                  <Route path={CONTACTS_PATH} element={<Main />} />
-                  <Route path={LOGIN_PATH} element={<Login />} />
-                  <Route path={SIGNUP_PATH} element={<Signup />} />
-                  <Route path={LOGOUT_PATH} element={<Logout />} />
-                  <Route path={DASHBOARD_PATH} element={<Dashboard />} />
-                  <Route path={SETTINGS_PATH} element={<Dashboard />} />
-                  <Route path={"/*"} element={<PageNotFound />}/>
-              </Route>
-          </Routes>
-    </BrowserRouter>
+    <>
+        <Toast />
+        <BrowserRouter basename={"/"}>
+            <Routes>
+                  <Route path={HOME_PATH_COMP}>
+                      <Route index element={<Main />} />
+                      <Route path={HOME_PATH_COMP} element={<Main />} />
+                      <Route path={HOME_PATH} element={<Main />} />
+                      <Route path={INFO_PATH} element={<Main />} />
+                      <Route path={CONTACTS_PATH} element={<Main />} />
+                      <Route path={LOGIN_PATH} element={<Login />} />
+                      <Route path={SIGNUP_PATH} element={<Signup />} />
+                      <Route path={LOGOUT_PATH} element={<Logout />} />
+                      <Route path={DASHBOARD_PATH} element={<Dashboard />} />
+                      <Route path={SETTINGS_PATH} element={<Dashboard />} />
+                      <Route path={"/*"} element={<PageNotFound />}/>
+                  </Route>
+              </Routes>
+        </BrowserRouter>
+    </>
 
 );
 

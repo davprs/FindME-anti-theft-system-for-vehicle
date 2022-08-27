@@ -7,6 +7,7 @@ import LoginFormPage from "./LoginFormPage";
 import authService from "../Auth/auth.service";
 import {useNavigate} from "react-router";
 import {DASHBOARD_PATH} from "../Routes";
+import {createToastWarning} from "./Toast";
 
 const LoginBody = () => {
     const [[page, direction], setPage] = useState([0, 0]);
@@ -49,7 +50,7 @@ const LoginBody = () => {
         });
         if(hasEmptyInput)
         {
-            alert('🚀 Ci siamo quasi! 🚀\nRicorda di riempire tutti i campi 😊');
+            createToastWarning('🚀 Ci siamo quasi! 🚀 Ricorda di riempire tutti i campi 😊');
             return;
         }
 
@@ -58,7 +59,7 @@ const LoginBody = () => {
             .then(() => console.log(authService.getCurrentUser()))
             .then(() => navigate(DASHBOARD_PATH))
             .catch((error) => {
-                alert('Email o Password non corretti😅' + error);
+                createToastWarning('Email o Password non corretti😅');
                 console.log(error);
             });
     }
@@ -67,6 +68,7 @@ const LoginBody = () => {
         <SignupForm fields={[["Email", "email"], ["Password", "password"]]}
                     formInputData={formInputData}
                     isSignup={false}
+                    containsPassword={true}
                     handleInputChange={handleInputChange} />
     ];
     const pageIndex = wrap(0, pages.length, page);

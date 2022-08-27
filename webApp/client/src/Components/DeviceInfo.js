@@ -5,10 +5,10 @@ import {useEffect, useState} from "react";
 import AuthService from "../Auth/auth.service";
 import {AnimatePresence, motion} from "framer-motion";
 import {serverStaticIP} from "../Helpers/serverAddress";
+import {createToastError} from "./Toast";
 
 
 function DashboardFootButtons({alarm}) {
-    console.log(alarm)
     return (
         <div className={"dashboardFootButtons"}>
             <button className={"help"}
@@ -28,9 +28,13 @@ function DeviceInfo() {
 
     const [[position, date, alarm, batteryLevel, gpsLevel, internetLevel], setData] = useState([null, new Date(), false, 4, 3, 4]);
 
+    function connectionLostToast(){
+        createToastError("La tua sessione potrebbe essere scaduta😢, prova ad aggiornare la pagina ❤️", 0);
+    }
+
     useEffect(() => {
+        const rawToken = AuthService.getToken();
         const jsonToken = AuthService.getCurrentUser();
-        console.log(AuthService.getToken())
         const username = jsonToken.username;
         const email = jsonToken.email;
 
@@ -40,21 +44,29 @@ function DeviceInfo() {
                 "authorization": "bearer"
             }
         });
-        socket.emit('client connection', 'connection');
+        socket.emit('request last known status');
+
         socket.on('connect_error', () => {
-            setTimeout(() => socket.connect(), 10000)
+            setTimeout(() => socket.connect(), 1000);
         })
-        console.log("listening to " + JSON.stringify({'username' : username, 'email': email}))
-        socket.on(JSON.stringify({'username' : username, 'email': email}), ([data, alarm]) => {
+        console.log("listening to " + JSON.stringify({'username': username, 'email': email}));
+        socket.on(JSON.stringify({'username': username, 'email': email}), ([data, alarm], callback) => {
             setData([{lat: data.gpsPos.x, lng: data.gpsPos.y},
                 new Date(data.updatedAt),
                 alarm,
                 data.bat,
                 data.gpsSig,
                 data.simSig
-            ])
+            ]);
+            callback({
+                token: rawToken,
+            });
+        });
+        socket.on('disconnect', () => {
+            console.log("server disconnected");
+            connectionLostToast();
         })
-        socket.on('disconnect', () => console.log("server disconnected"))
+
     }, []);
 
     const [isVisible, setVisible] = useState(false)

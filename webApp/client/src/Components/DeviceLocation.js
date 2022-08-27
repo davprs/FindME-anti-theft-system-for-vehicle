@@ -13,6 +13,9 @@ function Map({position, date, alarm}) {
     let dateDiff = () => {
         let diffSec = Math.floor((timeNow - date.getTime()) / 1000);
         let diffMin = Math.floor(diffSec / 60);
+        if (diffSec < 0) {
+            diffSec = 0;
+        }
         if(diffSec < 10) {
             return "" + diffSec + " secondi";
         } else if (diffSec >= 10 && diffSec < 60) {
