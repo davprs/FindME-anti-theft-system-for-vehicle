@@ -4,7 +4,6 @@ services:
     image: server_node
     restart: always
     ports:
-      - 80:5000
       - 5000:5000
       - 4000:4000
     volumes:
