@@ -14,11 +14,11 @@ getModelFromSchema = (Schema) => {
 module.exports.alarmModel = (mongoose)=> {
     const Schema = mongoose.Schema;
     const InfoSchema = getModelFromSchema(Schema);
-    return mongoose.model('deviceInfoModel1', InfoSchema, 'theftAlarms');
+    return mongoose.model('theftAlarms', InfoSchema, 'theftAlarms');
 };
 
 module.exports.normalModel = (mongoose)=> {
     const Schema = mongoose.Schema;
     const InfoSchema = getModelFromSchema(Schema);
-    return mongoose.model('deviceInfoModel2', InfoSchema, 'normalCheck');
+    return mongoose.model('normalCheck', InfoSchema, 'normalCheck');
 };

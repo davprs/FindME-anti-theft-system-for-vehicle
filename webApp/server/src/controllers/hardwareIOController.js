@@ -30,10 +30,16 @@ module.exports.saveCheck = async (jsonInfo, alarmState) => {
 module.exports.getLastKnownData = (deviceID) => {
     return Promise.all([getLastNormal(deviceID), getLastTheft(deviceID)])
         .then((values) => {
-            if (values[0].updatedAt > values[1].updatedAt){
+            if(values[0] && values[1]) {
+                if (values[0].updatedAt > values[1].updatedAt) {
+                    return [values[0], false];
+                }
+                return [values[1], true];
+            } else if(values[0]){
                 return [values[0], false];
-            }
-            return [values[1], true];
+            } else if(values[1]) {
+                return [values[1], true];
+            } else throw Error("not found last known data for " + deviceID);
         });
 }
 

@@ -7,5 +7,5 @@ module.exports = (mongoose)=> {
         lastName: String,
         password: String
     });
-    return mongoose.model('userModel', UserSchema, 'users');
+    return mongoose.model('users', UserSchema, 'users');
 };

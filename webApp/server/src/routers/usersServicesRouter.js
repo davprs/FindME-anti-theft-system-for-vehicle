@@ -1,4 +1,3 @@
-const path = require("path");
 const userRelatedRouter = require("express").Router();
 const {generateAccessToken,authenticateToken} = require('../auth/manageToken');
 const {newUser, UserModel} = require("../controllers/userController");

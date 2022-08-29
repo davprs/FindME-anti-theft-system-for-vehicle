@@ -13,5 +13,5 @@ module.exports = (mongoose)=> {
             thumb: String
         }
     });
-    return mongoose.model('IDK2', BrandImageSchema, 'car_logos');
+    return mongoose.model('car_logos', BrandImageSchema, 'car_logos');
 };

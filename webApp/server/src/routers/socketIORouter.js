@@ -11,7 +11,7 @@ const http = createServer(app);
 const io = require('socket.io')(http, {
     cors: {
         cookie: true,
-        origin: "http://localhost:3000",
+        origin: "http://localhost:5000",
         methods: ["GET", "POST"],
         allowedHeaders: ["authorization"],
         credentials: true
@@ -57,28 +57,17 @@ module.exports = (SOCKETIO_PORT) => {
                     const username = user.username;
                     const email = user.email;
                     const addressName = JSON.stringify({username: username, email: email});
+
+                    console.log("socket in room " + addressName)
+                    socket.join(addressName);
                     PlateModel.findOne({username: username})
                         .then((plate) => {
                             getLastKnownData(plate.deviceID)
                                 .then(([res, alarm]) => {
-                                    socket.emit(addressName, [res, alarm], (response) => {
-                                        try {
-                                            authenticateToken(response.token)
-                                        } catch (e) {
-                                            console.log("socket leaving room " + addressName)
-                                            socket.leave(addressName);
-                                            socket.disconnect();
-                                        }
-                                    })
-                                })
-                                .then(() => {
-                                    console.log("socket in room " + addressName)
-                                    socket.join(addressName);
+                                    socket.emit(addressName, [res, alarm]);
                                 })
                                 .catch(err => {
                                     console.log("EA" + err)
-                                    console.log("socket leaving room " + addressName)
-                                    socket.leave(addressName);
                                 });
                         })
                         .catch((err) => console.log("EB" + err));

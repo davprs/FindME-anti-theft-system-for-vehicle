@@ -1,3 +1,4 @@
+Xcopy ..\client\build\ .\build\ /E /H /C /I
 mkdir .\ASW
 
 docker compose down -v

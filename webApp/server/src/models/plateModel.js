@@ -6,5 +6,5 @@ module.exports = (mongoose)=> {
         deviceID: {type: String, unique: true, required: true},
         brand: {type: String, required: true}
     });
-    return mongoose.model('IDK', PlateSchema, 'plates');
+    return mongoose.model('plates', PlateSchema, 'plates');
 };
