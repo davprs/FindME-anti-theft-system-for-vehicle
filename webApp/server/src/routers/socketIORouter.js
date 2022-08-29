@@ -50,7 +50,6 @@ module.exports = (SOCKETIO_PORT) => {
             } catch (e) {
                 console.log(e);
             }
-            console.log(token);
             Promise.resolve()
                 .then(() => authenticateToken(token))
                 .then((user) => {
@@ -67,10 +66,10 @@ module.exports = (SOCKETIO_PORT) => {
                                     socket.emit(addressName, [res, alarm]);
                                 })
                                 .catch(err => {
-                                    console.log("EA" + err)
+                                    console.log(err)
                                 });
                         })
-                        .catch((err) => console.log("EB" + err));
+                        .catch((err) => console.log(err));
                 })
                 .catch((err) => {
                     console.log(err);

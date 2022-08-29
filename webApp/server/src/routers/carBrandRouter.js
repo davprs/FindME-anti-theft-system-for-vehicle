@@ -9,7 +9,6 @@ carBrandRouter
             .catch(err => res.sendStatus(400))
     })
     .get('/image/:brand', (req, res) => {
-        console.log("get" + req.params.brand);
         getImageUrl(req.params.brand)
             .then(path => res.send(path))
             .catch(err => res.sendStatus(404))

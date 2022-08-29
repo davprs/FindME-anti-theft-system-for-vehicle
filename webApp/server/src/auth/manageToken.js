@@ -11,7 +11,6 @@ module.exports.authenticateToken = (token) => {
     }
 
     return jwt.verify(token, tokenSecret, (err, user) => {
-        console.log("error : " + err)
 
         if (err) throw new Error("403 - Token verification failed")
 
