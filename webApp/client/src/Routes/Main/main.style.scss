@@ -4,6 +4,10 @@
     width: 100%;
     margin-left: 1%;
 }
+em {
+    @include theme (color, primaryLight);
+    font-style: normal
+}
 
 footer {
     grid-row: 3;
@@ -201,10 +205,10 @@ nav {
     flex-wrap: wrap;
     justify-content: center;
     p {
-        margin: 3%;
+        margin: 5%;
     }
     .slideshow {
-        width: 70%;
+        width: 60%;
         display: flex;
         justify-self: center;
         align-items: center;
@@ -213,7 +217,7 @@ nav {
             position: absolute;
             background: white;
             opacity: 0.5;
-            height: 20%;
+            height: 15%;
             padding: 3%;
             display: flex;
             justify-content: center;
@@ -224,14 +228,18 @@ nav {
             font-size: 18px;
             z-index: 2;
             border-radius: 15px;
+            transition: opacity 0.05s;
+            &:hover{
+                opacity: 0.7;
+            }
         }
 
         .next {
-            right: 17%;
+            right: 23%;
         }
 
         .prev {
-            left: 17%;
+            left: 23%;
         }
 
         img {
@@ -240,6 +248,25 @@ nav {
             width: 100%;
             aspect-ratio: 10 / 4;
             object-fit: cover;
+        }
+    }
+
+    &.infoProduct {
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
+        .image {
+            display: flex;
+            width: 21rem;
+            height: 21rem;
+            object-fit: cover;
+            border-radius: 50%;
+            box-shadow: 0px 30px 40px -25px black;
+        }
+
+        .description {
+            margin-left: 20px;
+            width: 30vw;
         }
     }
 
@@ -438,5 +465,18 @@ nav {
             }
         }
 
+        &.infoProduct {
+            display: flex;
+            .image {
+                width: 45vw;
+                height: 45vw;
+                box-shadow: 0px 30px 40px -25px black;
+            }
+
+            .description {
+                margin-left: 20px;
+                width: 80vw;
+            }
+        }
     }
 }

@@ -13,7 +13,6 @@ const SignupForm = (props) => {
     useEffect(() => {
         if (props.showPlate) {
             getKnownBrandNames().then(x => {
-                console.log(x.data)
                 setBrandNames(x.data)
             });
         }

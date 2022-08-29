@@ -34,16 +34,13 @@ function Dashboard() {
             .then(() => authService.getToken())
             .then(token => authService.verifyToken(token))
             .then(async res => {
-                console.log(res)
                 await setLogIn(true);
-                console.log(isLoggedIn)
             })
             .catch((err) => {
                 console.log(err);
                 setLogIn(false);
                 navigate(LOGIN_PATH);
             });
-        console.log(JSON.parse(localStorage.getItem('themeDark')))
         if (JSON.parse(localStorage.getItem('themeDark'))){
             setDarkTheme(true);
         } else {

@@ -45,7 +45,6 @@ const LoginBody = () => {
     const handleFormSubmit =(event)=>{
         event.preventDefault();
         const hasEmptyInput = !Object.values(formInputData).every(res=>{
-            console.log(res!=="");
             return res!=="";
         });
         if(hasEmptyInput)
@@ -56,7 +55,6 @@ const LoginBody = () => {
 
         authService.login(formInputData.email, formInputData.password)
             .then(async (resData) => await localStorage.setItem("brand", resData.brand))
-            .then(() => console.log(authService.getCurrentUser()))
             .then(() => navigate(DASHBOARD_PATH))
             .catch((error) => {
                 createToastWarning('Email o Password non corretti😅');

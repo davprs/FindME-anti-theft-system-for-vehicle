@@ -8,7 +8,7 @@ import LoginFormPage from "./LoginFormPage";
 import authService from "../Auth/auth.service";
 import {useNavigate} from "react-router";
 import {DASHBOARD_PATH} from "../Routes";
-import {createToast, createToastWarning} from "./Toast";
+import {createToastWarning} from "./Toast";
 
 const SignupBody = () => {
     const [[page, direction], setPage] = useState([0, 0]);
@@ -36,7 +36,6 @@ const SignupBody = () => {
      */
     const handleInputChange = (event, newValue, id) => {
         let NewInputValue, inputFieldValue, inputFieldName;
-        console.log(newValue);
         if(newValue){
             inputFieldValue = newValue;
             inputFieldName = id;
@@ -76,7 +75,6 @@ const SignupBody = () => {
     const handleFormSubmit =(event)=>{
         event.preventDefault();
         const hasEmptyInput = !Object.values(formInputData).every(res=>{
-            console.log(res!=="");
             return res!=="";
         });
         if(hasEmptyInput)
@@ -95,7 +93,6 @@ const SignupBody = () => {
             formInputData.email, formInputData.password,
             formInputData.plate, formInputData.deviceID,
             formInputData.brand)
-            .then(() => console.log(authService.getCurrentUser()))
             .then(() => navigate(DASHBOARD_PATH))
             .catch((error) => {
                 createToastWarning('Email o Username già in uso. Prova a cambiarli!');

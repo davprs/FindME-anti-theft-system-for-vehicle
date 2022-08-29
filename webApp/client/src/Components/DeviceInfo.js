@@ -33,7 +33,6 @@ function DeviceInfo() {
     }
 
     useEffect(() => {
-        const rawToken = AuthService.getToken();
         const jsonToken = AuthService.getCurrentUser();
         const username = jsonToken.username;
         const email = jsonToken.email;
@@ -50,7 +49,7 @@ function DeviceInfo() {
             setTimeout(() => socket.connect(), 1000);
         })
         console.log("listening to " + JSON.stringify({'username': username, 'email': email}));
-        socket.on(JSON.stringify({'username': username, 'email': email}), ([data, alarm], callback) => {
+        socket.on(JSON.stringify({'username': username, 'email': email}), ([data, alarm]) => {
             setData([{lat: data.gpsPos.x, lng: data.gpsPos.y},
                 new Date(data.updatedAt),
                 alarm,
@@ -58,9 +57,6 @@ function DeviceInfo() {
                 data.gpsSig,
                 data.simSig
             ]);
-            callback({
-                token: rawToken,
-            });
         });
         socket.on('disconnect', () => {
             console.log("server disconnected");

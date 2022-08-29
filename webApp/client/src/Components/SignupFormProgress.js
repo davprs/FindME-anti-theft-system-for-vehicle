@@ -21,7 +21,6 @@ class SignupFormProgress extends React.Component {
 
 
     updatePercent(){
-        console.log(this.props.getPercent())
         this.setState({progress: this.props.getPercent()});
     }
     componentDidMount() {
