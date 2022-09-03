@@ -1,0 +1,22 @@
+#Gradle
+device-simulator/.gradle/
+device-simulator/build/
+
+# Eclipse
+device-simulator/.classpath
+device-simulator/.project
+device-simulator/.settings/
+device-simulator/bin/
+
+# IntelliJ IDEA
+device-simulator/.idea/
+device-simulator/*.iml
+device-simulator/*.iws
+device-simulator/*.ipr
+
+webApp/.idea/
+webApp/client/.idea/
+webApp/client/node_modules/
+
+webApp/server/.idea/
+webApp/server/node_modules/
