@@ -37,7 +37,7 @@ class AuthService {
      * removes cookies
      */
     logout() {
-        document.cookie = "token=; Max-Age=0;secure";
+        document.cookie = "token=; expires = Thu, 01 Jan 1970 00:00:00 GMT;";
         localStorage.removeItem("brand");
     }
 

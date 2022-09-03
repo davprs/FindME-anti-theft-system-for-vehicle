@@ -6,21 +6,24 @@ const {getLastKnownData, saveCheck, isLastTheftInTimeWindow} = require("../contr
 const {UserModel} = require("../controllers/userController");
 const {createServer} = require('http');
 const express = require('express');
+const {sendNotificationEmail} = require("../controllers/notificationController");
 const app = express();
 const http = createServer(app);
-const io = require('socket.io')(http, {
-    cors: {
-        cookie: true,
-        origin: "http://localhost:5000",
-        methods: ["GET", "POST"],
-        allowedHeaders: ["authorization"],
-        credentials: true
-    }
-});
+const DOMAIN_NAME = "127.0.0.1"; //"192.168.1.21";
 
+module.exports = (SOCKETIO_PORT, FRONTEND_REQUEST_PORT) => {
+    const allowedOrigins = ["http://" + DOMAIN_NAME + ":" + FRONTEND_REQUEST_PORT ,"http://localhost:" + FRONTEND_REQUEST_PORT];
 
+    const io = require('socket.io')(http, {
+        cors: {
+            cookie: true,
+            origin: allowedOrigins,
+            methods: ["GET", "POST"],
+            allowedHeaders: ["authorization"],
+            credentials: true
+        }
+    });
 
-module.exports = (SOCKETIO_PORT) => {
     http.listen(SOCKETIO_PORT, ()=>{
         console.log("SocketIO listen on port " + SOCKETIO_PORT)
     })
@@ -63,7 +66,7 @@ module.exports = (SOCKETIO_PORT) => {
                         .then((plate) => {
                             getLastKnownData(plate.deviceID)
                                 .then(([res, alarm]) => {
-                                    socket.emit(addressName, [res, alarm]);
+                                    socket.emit(addressName, [res, alarm, [false, new Date()]]);
                                 })
                                 .catch(err => {
                                     console.log(err)
@@ -90,7 +93,7 @@ module.exports = (SOCKETIO_PORT) => {
                 .then(async ([new_doc, user]) => {
                     let roomName = JSON.stringify({username: user.username, email: user.email});
                     await checkSocketsInRoom(roomName);
-                    socket.to(roomName).emit(roomName, [new_doc, false]);
+                    socket.to(roomName).emit(roomName, [new_doc, false, [true, new Date()]]);
                 })
                 .catch(err => console.log(err))
         });
@@ -108,7 +111,7 @@ module.exports = (SOCKETIO_PORT) => {
                 .then(async ([new_doc, plate, user]) => {
                     let roomName = JSON.stringify({username: user.username, email: user.email});
                     await checkSocketsInRoom(roomName);
-                    io.to(roomName).emit(roomName, [new_doc, true]);
+                    io.to(roomName).emit(roomName, [new_doc, true, [true, new Date()]]);
                     return [new_doc, plate, user];
                 })
                 .then(async ([new_doc, plate, user]) => {
@@ -118,7 +121,7 @@ module.exports = (SOCKETIO_PORT) => {
                             const notify = !Boolean(res);
                             if (notify) {
                                 console.log("sending email!!!")
-                                //sendNotificationEmail(user, plate); //TODO remove in prod
+                                sendNotificationEmail(user, plate); //TODO remove in prod
 
                             }
                         })

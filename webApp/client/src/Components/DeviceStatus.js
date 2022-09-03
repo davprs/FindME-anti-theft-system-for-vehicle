@@ -16,16 +16,14 @@ function getIcon (level){
     switch (level) {
         case 1:
             return faBatteryQuarter;
-            break;
         case 2:
             return faBatteryHalf;
-            break;
         case 3:
             return faBatteryThreeQuarters;
-            break;
         case 4:
             return faBatteryFull;
-            break;
+        default:
+            return faBatteryFull;
     }
 }
 

@@ -49,9 +49,13 @@ function DeviceInfo() {
             setTimeout(() => socket.connect(), 1000);
         })
         console.log("listening to " + JSON.stringify({'username': username, 'email': email}));
-        socket.on(JSON.stringify({'username': username, 'email': email}), ([data, alarm]) => {
+        socket.on(JSON.stringify({'username': username, 'email': email}), ([data, alarm, [isRealTime, serverDate]]) => {
+            let date = new Date (new Date(data.updatedAt) - (new Date(serverDate) - new Date()));
+            if(isRealTime){
+                date = new Date();
+            }
             setData([{lat: data.gpsPos.x, lng: data.gpsPos.y},
-                new Date(data.updatedAt),
+                date,
                 alarm,
                 data.bat,
                 data.gpsSig,

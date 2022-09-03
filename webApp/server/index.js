@@ -8,13 +8,14 @@ const userRelatedRouter = require("./src/routers/usersServicesRouter");
 const brandImageRouter = require("./src/routers/carBrandRouter");
 
 const EXPRESS_PORT = 5000;
+const FRONTEND_REQUEST_PORT = EXPRESS_PORT; //TODO: check in prod
 const SOCKETIO_PORT = 4000;
-
-require('./src/routers/socketIORouter')(SOCKETIO_PORT);
+const compression = require('compression');
+require('./src/routers/socketIORouter')(SOCKETIO_PORT, FRONTEND_REQUEST_PORT);
 
 global.appRoot = path.resolve(__dirname);
 mongoose.connect('mongodb://mongo:27017/FindME');
-
+app.use(compression())
 app.use(cors());
 app.options('*', cors());
 
