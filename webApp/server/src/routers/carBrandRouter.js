@@ -9,7 +9,7 @@ carBrandRouter
             .catch(err => res.sendStatus(400))
     })
     .get('/image/:brand', (req, res) => {
-        getImageUrl(req.params.brand)
+        getImageUrl(decodeURI(req.params.brand).replace(" ", "-"))
             .then(path => res.send(path))
             .catch(err => res.sendStatus(404))
 })
