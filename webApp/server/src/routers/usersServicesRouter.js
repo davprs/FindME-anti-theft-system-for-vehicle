@@ -20,8 +20,8 @@ userRelatedRouter.post("/signup", async (req, res) => {
         .then(() => {
             res.send({token : generateAccessToken({
                 "username": req.body["username"],
-                "email":    req.body["email"]/*,
-                "password": req.body["password"]*/}),
+                "email":    req.body["email"]
+            }),
                 brand : req.body.brand});
         })
         .catch((err) => {
@@ -36,8 +36,8 @@ userRelatedRouter.post("/signup", async (req, res) => {
         .then(([user, plate]) => {
             res.send({token : generateAccessToken({
                 "username": user.username,
-                "email":    user.email/*,
-                "password": req.body["password"]*/}),
+                "email":    user.email
+            }),
                 brand : plate.brand});
         })
         .catch((err) => {
