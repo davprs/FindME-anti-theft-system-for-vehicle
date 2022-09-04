@@ -1,6 +1,7 @@
 #Gradle
 device-simulator/.gradle/
 device-simulator/build/
+device-simulator/out/
 
 # Eclipse
 device-simulator/.classpath
