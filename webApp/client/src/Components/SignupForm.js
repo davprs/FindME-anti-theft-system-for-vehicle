@@ -87,7 +87,10 @@ const SignupForm = (props) => {
             );
         } else {
             fieldCreated.push(
-                <p key={"loginTxt"}>non hai un account? <u><a onClick={()=>navigate(SIGNUP_PATH)} style={{cursor: "pointer"}}>Creane uno!</a></u></p>
+                <p key={"loginTxt"}>non hai un account? <u><a href={SIGNUP_PATH} onClick={(e)=>{
+                    e.preventDefault();
+                    navigate(SIGNUP_PATH);
+                }} style={{cursor: "pointer"}}>Creane uno!</a></u></p>
             );
         }
     } else {
