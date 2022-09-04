@@ -1,0 +1,3 @@
+# IMPORTANTE!
+Per poter scaricare l'archivio "[ASW_saved.tgz](https://bitbucket.org/davprs/anti-theft-system-for-vehicle/src/deploy/webApp/server/ASW_saved.tgz)" da terminale è necessario [**git lfs**](https://git-lfs.github.com/), in alternativa il file può essere scaricato manualmente da [questa pagina](https://bitbucket.org/davprs/anti-theft-system-for-vehicle/src/deploy/webApp/server/ASW_saved.tgz).</br>
+Le informazioni utili per il deploy sono riportate nella sezione **deploy** della [relazione](https://bitbucket.org/davprs/anti-theft-system-for-vehicle/src/deploy/doc/Relazione_Crisante_Davide_FindME.pdf).
