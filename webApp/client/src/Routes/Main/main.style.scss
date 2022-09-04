@@ -67,6 +67,21 @@ footer {
                 transform: translateY(-5px);
             }
 
+            a {
+                padding: 2rem;
+                display: inline-block;
+                text-align: center;
+                @include theme(color, textHighContrast);
+                text-decoration: none;
+                font-family: Bahnschrift SemiBold;
+                font-size: 1.2rem;
+
+            }
+
+            a:hover {
+                transform: scale(1.2);
+            }
+
             &.lastItem {
                 background-image: linear-gradient(to bottom, color(primaryLightRed),color(primaryDarkRed));
                 margin-left: 10px;
@@ -83,21 +98,6 @@ footer {
                     text-align: center;
 
                 }
-            }
-
-            a {
-                padding: 2rem;
-                display: inline-block;
-                text-align: center;
-                @include theme(color, textHighContrast);
-                text-decoration: none;
-                font-family: Bahnschrift SemiBold;
-                font-size: 1.2rem;
-
-            }
-
-            a:hover {
-                transform: scale(1.2);
             }
 
             &.sel{
