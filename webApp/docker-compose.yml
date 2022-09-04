@@ -10,6 +10,8 @@ services:
       - ./:/code
     links:
       - "mongo:mongo"
+    depends_on:
+      - mongo
   mongo:
     image: mongo:5.0.5
     ports:
