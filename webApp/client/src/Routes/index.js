@@ -9,13 +9,6 @@ import DashboardSettings from "../Components/DashboardSettings";
 import Logout from "./Login/logout";
 import MainDashboard from "../Components/MainDashboard";
 
-function objectFlip(obj) {
-    return Object.keys(obj).reduce((ret, key) => {
-        ret[obj[key]] = key;
-        return ret;
-    }, {});
-}
-
 export const HOME_PATH = "/home";
 export const HOME_PATH_COMP = "/";
 export const INFO_PATH = "/info";
@@ -24,7 +17,7 @@ export const LOGIN_PATH = "/login";
 export const SIGNUP_PATH = "/signup";
 export const LOGOUT_PATH = "/logout";
 export const DASHBOARD_PATH = "/dashboard";
-export const SETTINGS_PATH = DASHBOARD_PATH + "/settings";
+export const SETTINGS_PATH = "/dashboard_settings";
 
 export const PATH_DICT = Object.assign({[HOME_PATH_COMP]: 0},
     ...[HOME_PATH, INFO_PATH, CONTACTS_PATH,
@@ -32,7 +25,6 @@ export const PATH_DICT = Object.assign({[HOME_PATH_COMP]: 0},
         LOGOUT_PATH, SETTINGS_PATH].map((path, index) => ({[path]: index})));
 
 
-export const PATH_DICT_INV = objectFlip(PATH_DICT)
 
 export const MainPublicPages = [
     <Home />,
