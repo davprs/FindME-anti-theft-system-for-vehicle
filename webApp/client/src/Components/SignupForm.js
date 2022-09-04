@@ -4,6 +4,7 @@ import {SIGNUP_PATH} from "../Routes";
 import InputSuggest from "./InputSuggest";
 import {getKnownBrandNames} from "../Helpers/carBrandHelpers";
 import {useEffect, useState} from "react";
+import React from "react";
 
 const SignupForm = (props) => {
 
@@ -23,7 +24,7 @@ const SignupForm = (props) => {
         const other = props.fields.filter(([_, plate]) => (plate !== 'plate' && plate !== 'brand'));
         const fieldBrandSuggestion = Array.from(brandSuggestion, (field, index) => {
             return (
-                <>
+                <React.Fragment key={index.toString()}>
                     <label htmlFor={field[1]}>{field[0]} :</label>
                     <InputSuggest hints={brandNames}
                                   id={field[1]}
@@ -32,11 +33,11 @@ const SignupForm = (props) => {
                                   value={props.formInputData[field[1]]}
                                   onChange={props.handleInputChange}/>
                     <br/>
-                </>);
+                </ React.Fragment>);
         });
         const fieldPlate = Array.from(plate, (field, index) => {
             return (
-                <>
+                <React.Fragment key={field.toString()}>
                     <div className="car-plate-wrapper">
                         <span className="registration-ui">
                             <input id={field[1]}
@@ -47,19 +48,19 @@ const SignupForm = (props) => {
                         </span>
                     </div>
                     <br/>
-                </>);
+                </React.Fragment>);
         });
 
         const fieldOther = Array.from(other, (field, index) => {
             return (
-                <>
+                <React.Fragment key={field.toString()}>
                     <label htmlFor={field[1]}>{field[0]} :</label>
                     <input id={field[1]} type={"text"}
                            placeholder={field[0] + ".."}
                            value={props.formInputData[field[1]]}
                            onChange={props.handleInputChange}/>
                     <br/>
-                </>);
+                </React.Fragment>);
         });
 
         fieldCreated = fieldBrandSuggestion;
@@ -68,7 +69,7 @@ const SignupForm = (props) => {
     } else if (props.containsPassword) {
         fieldCreated = Array.from(props.fields, (field, index) => {
             return (
-                <>
+                <React.Fragment key={field.toString()}>
                     <label htmlFor={field[1]}>{field[0]} :</label>
                     <input id={field[1]}
                            type={field[1].includes("password") ? "password": "text"}
@@ -78,32 +79,28 @@ const SignupForm = (props) => {
                     <br/>
 
 
-                </>);
+                </React.Fragment>);
         });
         if(props.isSignup) {
             fieldCreated.push(
-                <>
-                    <PasswordStrengthBar className={"passwordStrengthBar"} password={props.formInputData.password}/>
-                </>
+                    <PasswordStrengthBar key={"psswStrBar"} className={"passwordStrengthBar"} password={props.formInputData.password}/>
             );
         } else {
             fieldCreated.push(
-                <>
-                    <p>non hai un account? <u><a onClick={()=>navigate(SIGNUP_PATH)} style={{cursor: "pointer"}}>Creane uno!</a></u></p>
-                </>
+                <p key={"loginTxt"}>non hai un account? <u><a onClick={()=>navigate(SIGNUP_PATH)} style={{cursor: "pointer"}}>Creane uno!</a></u></p>
             );
         }
     } else {
         fieldCreated = Array.from(props.fields, (field, index) => {
             return (
-                <>
+                <React.Fragment key={field.toString()}>
                     <label htmlFor={field[1]}>{field[0]} :</label>
                     <input id={field[1]} type={"text"}
                            placeholder={field[0] + ".."}
                            value={props.formInputData[field[1]]}
                            onChange={props.handleInputChange}/>
                     <br/>
-                </>);
+                </React.Fragment>);
         });
     }
 

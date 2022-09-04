@@ -10,12 +10,11 @@ const toggleMenu = (event) => {
 function HamburgerMenu({handleClick, currentPage, closeMenu, paths, pathNames}) {
     const menuItems = Array.from(paths, (path, index) => {
         return (
-            <>
-                <li className={(currentPage=== path || (currentPage === HOME_PATH_COMP && path === HOME_PATH)) ? "sel" : "" ||
+            <li key={index.toString()}
+                className={(currentPage=== path || (currentPage === HOME_PATH_COMP && path === HOME_PATH)) ? "sel" : "" ||
                     index === paths.length - 1 ? "lastItem": ""}>
-                    <Link to={path} onClick={()=> {closeMenu();handleClick(path)}}>{pathNames[index]}</Link>
-                </li>
-            </>
+                <Link to={path} onClick={()=> {closeMenu();handleClick(path)}}>{pathNames[index]}</Link>
+            </li>
         )
     });
 

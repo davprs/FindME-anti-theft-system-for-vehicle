@@ -10,7 +10,8 @@ class SignupFormProgress extends React.Component {
         this.steps = Array.from({length: props.nSteps}, (_, index) => {
             return (
                 <Step transition="scale"
-                      index={index}>
+                      index={index}
+                      key={index.toString()}>
                     {({accomplished}) => (
                         <span className="dot" style={{filter: `saturate(${accomplished ? 100 : 0}%)`}}></span>
                     )}
